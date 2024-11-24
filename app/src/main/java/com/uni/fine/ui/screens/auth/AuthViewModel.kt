@@ -65,6 +65,7 @@ class AuthViewModel @Inject constructor(
                 email = state.value.email,
                 password = state.value.password
             )
+            _sideEffect.tryEmit(AuthSideEffect.Home)
         }
     }
 
@@ -74,6 +75,7 @@ class AuthViewModel @Inject constructor(
                 email = state.value.email,
                 password = state.value.password
             )
+            _sideEffect.tryEmit(AuthSideEffect.Home)
         }
     }
 

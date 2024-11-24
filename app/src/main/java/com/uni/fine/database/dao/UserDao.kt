@@ -13,4 +13,7 @@ interface UserDao {
 
     @Query("SELECT token FROM user")
     suspend fun getToken(): String?
+
+    @Query("DELETE FROM user")
+    suspend fun delete()
 }

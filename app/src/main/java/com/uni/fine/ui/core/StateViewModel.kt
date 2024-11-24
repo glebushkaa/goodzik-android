@@ -10,12 +10,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-abstract class StateViewModel<T>(
-    initialState: T
-) : ViewModel() {
-    protected val mutableState = MutableStateFlow(initialState)
-    val state = mutableState.asStateFlow()
-
+abstract class BaseViewModel : ViewModel() {
     fun launch(
         context: CoroutineContext = EmptyCoroutineContext,
         block: suspend () -> Unit
@@ -26,4 +21,11 @@ abstract class StateViewModel<T>(
             Log.e("BaseViewModel", "launch: ${e.message}")
         }
     }
+}
+
+abstract class StateViewModel<T>(
+    initialState: T
+) : BaseViewModel() {
+    protected val mutableState = MutableStateFlow(initialState)
+    val state = mutableState.asStateFlow()
 }

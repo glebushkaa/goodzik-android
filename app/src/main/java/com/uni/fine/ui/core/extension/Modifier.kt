@@ -14,3 +14,9 @@ fun Modifier.clickableNoRipple(
     indication = null,
     onClick = onClick
 )
+
+@Composable
+fun Modifier.applyIf(
+    condition: Boolean,
+    action: @Composable Modifier.() -> Modifier
+): Modifier = if (condition) this.then(action()) else this

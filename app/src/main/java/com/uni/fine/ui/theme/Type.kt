@@ -60,6 +60,12 @@ data class UniTypography(
         fontFamily = eUkraineFontFamily,
         lineHeight = 16.sp
     ),
+    val smallBody: TextStyle = TextStyle(
+        fontSize = 10.sp,
+        fontWeight = FontWeight.Medium,
+        fontFamily = eUkraineFontFamily,
+        lineHeight = 14.sp
+    ),
 )
 
 val LocalTypography = staticCompositionLocalOf { UniTypography() }

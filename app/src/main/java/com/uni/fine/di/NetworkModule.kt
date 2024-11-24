@@ -1,11 +1,15 @@
 package com.uni.fine.di
 
+import com.uni.fine.database.dao.UserDao
 import com.uni.fine.network.api.AuthApi
+import com.uni.fine.network.api.CheckApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,8 +45,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttp(userDao: UserDao): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(buildLoggingInterceptor())
+        .addInterceptor(buildAuthInterceptor(userDao))
         .setTimeouts()
         .build()
 
@@ -62,6 +67,19 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideCheckApi(retrofit: Retrofit): CheckApi = retrofit.create()
+
+    private fun buildAuthInterceptor(userDao: UserDao): Interceptor = Interceptor { chain ->
+        val token = runBlocking { userDao.getToken() }
+        val request = chain.request()
+        val newRequest = request.newBuilder()
+            .addHeader("Authorization", "Bearer $token")
+            .build()
+        chain.proceed(newRequest)
+    }
 
     private fun buildLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {

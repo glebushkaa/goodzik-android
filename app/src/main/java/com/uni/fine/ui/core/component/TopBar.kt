@@ -1,7 +1,5 @@
 package com.uni.fine.ui.core.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
@@ -14,17 +12,14 @@ import com.uni.fine.ui.theme.UniFineTheme
 fun TopBar(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = UniFineTheme.typography.heading
+    textStyle: TextStyle = UniFineTheme.typography.heading,
 ) {
-    Row(
+    Text(
         modifier = modifier
-            .background(color = UniFineTheme.colors.white)
             .statusBarsPadding()
-            .padding(top = UniFineTheme.padding.enormous),
-    ) {
-        Text(
-            text = text,
-            style = textStyle,
-        )
-    }
+            .padding(top = UniFineTheme.padding.enormous)
+            .padding(end = UniFineTheme.padding.average),
+        text = text,
+        style = textStyle,
+    )
 }

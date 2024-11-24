@@ -30,6 +30,7 @@ fun UniTextField(
         onValueChange = onTextChange,
         textStyle = UniFineTheme.typography.body,
         visualTransformation = visualTransformation,
+        maxLines = 1,
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
@@ -50,7 +51,8 @@ fun UniTextField(
                     Text(
                         text = hint,
                         style = UniFineTheme.typography.hint,
-                        color = UniFineTheme.colors.gray
+                        color = UniFineTheme.colors.gray,
+                        maxLines = 1,
                     )
                 }
                 innerTextField()

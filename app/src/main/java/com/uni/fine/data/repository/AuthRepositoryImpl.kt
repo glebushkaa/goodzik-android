@@ -15,14 +15,22 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(email: String, password: String) {
         val request = LoginModel(email, password)
         val result = authApi.login(request)
-        val user = UserEntity(token = result.accessToken)
+        val user = UserEntity(token = result.accessToken ?: throw Exception("Token is null"))
         userDao.upsert(user)
     }
 
     override suspend fun register(email: String, password: String) {
         val request = LoginModel(email, password)
         val result = authApi.register(request)
-        val user = UserEntity(token = result.accessToken)
+        val user = UserEntity(token = result.accessToken ?: throw Exception("Token is null"))
         userDao.upsert(user)
+    }
+
+    override suspend fun isUserLoggedIn(): Boolean {
+        return userDao.getToken() != null
+    }
+
+    override suspend fun logOut() {
+        userDao.delete()
     }
 }

@@ -39,6 +39,7 @@ import com.uni.fine.ui.theme.UniFineTheme
 @Composable
 fun AuthScreen(
     onBack: () -> Unit,
+    onHome: () -> Unit,
 ) {
     val viewModel = hiltViewModel<AuthViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -46,6 +47,7 @@ fun AuthScreen(
     viewModel.sideEffect.collectAsEffect {
         when (it) {
             AuthSideEffect.Back -> onBack()
+            AuthSideEffect.Home -> onHome()
         }
     }
 
