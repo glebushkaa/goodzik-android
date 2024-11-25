@@ -17,13 +17,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.uni.fine.ui.core.extension.collectAsEffect
 import com.uni.fine.ui.core.extension.navigateWithFullClearedStack
 import com.uni.fine.ui.navigation.Screens
 import com.uni.fine.ui.screens.auth.AuthScreen
 import com.uni.fine.ui.screens.home.HomeScreen
+import com.uni.fine.ui.screens.info.InfoScreen
 import com.uni.fine.ui.screens.setup.CheckSetupScreen
 import com.uni.fine.ui.screens.splash.SplashScreen
+import com.uni.fine.ui.screens.upload.UploadScreen
 import com.uni.fine.ui.theme.UniFineTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -94,12 +97,38 @@ class MainActivity : ComponentActivity() {
             composable<Screens.Home> {
                 HomeScreen(
                     onCreateCheck = {
-                        navController.navigate(Screens.CreateCheck)
+                        navController.navigate(Screens.CheckSetup)
+                    },
+                    onCheckInfo = {
+                        navController.navigate(Screens.Info(it, false))
                     }
                 )
             }
-            composable<Screens.CreateCheck> {
-                CheckSetupScreen()
+            composable<Screens.CheckSetup> {
+                CheckSetupScreen(
+                    onNext = {
+                        navController.navigate(Screens.UploadWork)
+                    }
+                )
+            }
+            composable<Screens.UploadWork> {
+                UploadScreen(
+                    onNext = { id ->
+                        navController.navigate(Screens.Info(id, true)) {
+                            popUpTo(Screens.Home) { inclusive = false }
+                        }
+                    }
+                )
+            }
+            composable<Screens.Info> {
+                val args = it.toRoute<Screens.Info>()
+                InfoScreen(
+                    id = args.id,
+                    new = args.new,
+                    onClose = {
+                        navController.navigateWithFullClearedStack(Screens.Home)
+                    }
+                )
             }
         }
     }

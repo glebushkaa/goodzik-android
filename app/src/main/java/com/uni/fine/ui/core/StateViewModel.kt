@@ -11,6 +11,9 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 abstract class BaseViewModel : ViewModel() {
+    protected val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
     fun launch(
         context: CoroutineContext = EmptyCoroutineContext,
         block: suspend () -> Unit

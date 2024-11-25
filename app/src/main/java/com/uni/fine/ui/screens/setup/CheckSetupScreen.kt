@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,13 +34,17 @@ import com.uni.fine.ui.core.extension.verticalScrollbar
 import com.uni.fine.ui.theme.UniFineTheme
 
 @Composable
-fun CheckSetupScreen() {
+fun CheckSetupScreen(
+    onNext: () -> Unit
+) {
     val viewModel = hiltViewModel<CheckSetupViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     viewModel.sideEffect.collectAsEffect {
         when (it) {
-            CheckSetupSideEffect.Next -> TODO()
+            CheckSetupSideEffect.Next -> onNext()
         }
     }
 
@@ -55,6 +60,7 @@ fun CheckSetupScreen() {
             viewModel.sendAction(CheckSetupAction.ExcludedWordsChanged(it))
         },
         onNext = {
+            keyboardController?.hide()
             viewModel.sendAction(CheckSetupAction.Next)
         }
     )
@@ -82,9 +88,7 @@ private fun CheckSetupContent(
         Text(
             text = stringResource(id = R.string.topic),
             style = UniFineTheme.typography.fieldTitle,
-            modifier = Modifier
-                .padding(top = UniFineTheme.padding.large)
-                .padding(top = UniFineTheme.padding.massive)
+            modifier = Modifier.padding(top = UniFineTheme.padding.enormous)
         )
         Spacer(modifier = Modifier.height(UniFineTheme.padding.small))
         UniTextField(

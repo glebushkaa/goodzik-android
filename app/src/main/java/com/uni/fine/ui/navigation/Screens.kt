@@ -13,5 +13,14 @@ sealed interface Screens {
     data object Home : Screens
 
     @Serializable
-    data object CreateCheck : Screens
+    data object CheckSetup : Screens
+
+    @Serializable
+    data object UploadWork : Screens
+
+    @Serializable
+    data class Info(
+        val id: String,
+        val new: Boolean
+    ) : Screens
 }

@@ -11,6 +11,8 @@ data class UniColor(
     val white: Color = Color(0xFFFFFFFF),
     val ocean: Color = Color(0xFF5686FF),
     val gray: Color = Color(0xFF666666),
+    val red: Color = Color(0xFFFF7676),
+    val green: Color = Color(0xFFA2C796),
 )
 
 val LocalColors = staticCompositionLocalOf { UniColor() }

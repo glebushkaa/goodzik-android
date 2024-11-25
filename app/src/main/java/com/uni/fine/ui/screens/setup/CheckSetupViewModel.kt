@@ -45,7 +45,14 @@ class CheckSetupViewModel @Inject constructor(
     }
 
     private fun next() {
-        TODO()
+        launch {
+            checkRepository.setupCheck(
+                topic = state.value.topic,
+                style = state.value.style,
+                excludedWords = state.value.excludedWords
+            )
+            _sideEffect.emit(CheckSetupSideEffect.Next)
+        }
     }
 
     private fun collectNextButtonState() {

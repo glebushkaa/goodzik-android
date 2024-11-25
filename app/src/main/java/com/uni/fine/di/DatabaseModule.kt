@@ -27,4 +27,8 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideUserDao(database: UniDatabase) = database.userDao()
+
+    @Provides
+    @Singleton
+    fun provideCheckDao(database: UniDatabase) = database.checkDao()
 }

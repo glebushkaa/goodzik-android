@@ -24,4 +24,13 @@
     <string name="excluded_words_hint">Enter excluded words for check</string>
 
     <string name="next">Next</string>
+
+    <string name="upload_work_title">Upload your work</string>
+    <string name="enter_work_text">"Enter text to check"</string>
+    <string name="or">or</string>
+    <string name="upload_file">Upload file</string>
+    <string name="pdf_only">(pdf only*)</string>
+    <string name="clear">Clear</string>
+
+    <string name="summary">Summary</string>
 </resources>

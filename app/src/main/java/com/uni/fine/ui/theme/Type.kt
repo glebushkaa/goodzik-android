@@ -42,6 +42,12 @@ data class UniTypography(
         fontFamily = eUkraineFontFamily,
         lineHeight = 36.sp,
     ),
+    val smallHeading: TextStyle = TextStyle(
+        fontSize = 28.sp,
+        fontWeight = FontWeight.Medium,
+        fontFamily = eUkraineFontFamily,
+        lineHeight = 32.sp,
+    ),
     val body: TextStyle = TextStyle(
         fontSize = 18.sp,
         fontWeight = FontWeight.Normal,

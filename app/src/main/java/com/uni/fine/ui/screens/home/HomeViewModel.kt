@@ -20,12 +20,12 @@ class HomeViewModel @Inject constructor(
     val sideEffect = _sideEffect.asSharedFlow()
 
     init {
+        collectChecks()
         loadChecks()
     }
 
     fun sendAction(action: HomeAction) {
         when (action) {
-            is HomeAction.CheckClicked -> TODO()
             HomeAction.CreateCheckClicked -> _sideEffect.tryEmit(HomeSideEffect.CreateCheck)
             HomeAction.LogOutClicked -> logOut()
         }
@@ -35,12 +35,19 @@ class HomeViewModel @Inject constructor(
         launch { sessionState.logOut() }
     }
 
+    private fun collectChecks() {
+        launch {
+            checkRepository.getChecks().collect { result ->
+                mutableState.update {
+                    it.copy(checks = result.toImmutableList())
+                }
+            }
+        }
+    }
+
     private fun loadChecks() {
         launch {
-            val result = checkRepository.getChecks().toImmutableList()
-            mutableState.update {
-                it.copy(checks = result)
-            }
+            checkRepository.requestChecksUpdate()
         }
     }
 }

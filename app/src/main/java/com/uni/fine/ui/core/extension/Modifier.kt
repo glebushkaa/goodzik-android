@@ -1,8 +1,10 @@
 package com.uni.fine.ui.core.extension
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -13,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.uni.fine.ui.theme.UniFineTheme
 
 @Composable
 fun Modifier.clickableNoRipple(
@@ -57,3 +60,12 @@ fun Modifier.verticalScrollbar(
         )
     }
 }
+
+@Composable
+fun Modifier.thinBorder(
+    color: Color = UniFineTheme.colors.black
+) = border(
+    width = 1.dp,
+    color = color,
+    shape = RoundedCornerShape(10.dp)
+)

@@ -37,6 +37,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.uni.fine.ui.core.extension.clickableNoRipple
+import com.uni.fine.ui.core.extension.thinBorder
 import com.uni.fine.ui.theme.UniFineTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -79,13 +80,7 @@ inline fun <reified T> DropdownScreenContainer(
                 it.invoke()
             }
         }
-        Box(
-            modifier = Modifier.border(
-                width = 1.dp,
-                color = UniFineTheme.colors.black,
-                shape = RoundedCornerShape(10.dp)
-            )
-        ) {
+        Box(modifier = Modifier.thinBorder()) {
             CustomBuildDropDown(
                 modifier = Modifier.padding(top = resultPadding),
                 expanded = state.visible,
@@ -172,11 +167,7 @@ fun SelectedDropdownItem(
 
     Row(
         modifier = modifier
-            .border(
-                width = 1.dp,
-                color = UniFineTheme.colors.black,
-                shape = RoundedCornerShape(10.dp)
-            )
+            .thinBorder()
             .heightIn(min = 50.dp)
             .fillMaxWidth()
             .background(UniFineTheme.colors.white)

@@ -1,19 +1,13 @@
 package com.uni.fine.ui.screens.home
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,6 +50,7 @@ import java.time.LocalDate
 @Composable
 fun HomeScreen(
     onCreateCheck: () -> Unit,
+    onCheckInfo: (id: String) -> Unit,
 ) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -67,7 +62,7 @@ fun HomeScreen(
 
     HomeScreenContent(
         state = state,
-        onCheckClicked = { id -> viewModel.sendAction(HomeAction.CheckClicked(id)) },
+        onCheckClicked = onCheckInfo,
         onCreateCheck = { viewModel.sendAction(HomeAction.CreateCheckClicked) },
         onLogOut = { viewModel.sendAction(HomeAction.LogOutClicked) }
     )
