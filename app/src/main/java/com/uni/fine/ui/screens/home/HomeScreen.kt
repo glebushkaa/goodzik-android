@@ -1,5 +1,14 @@
 package com.uni.fine.ui.screens.home
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +44,7 @@ import com.uni.fine.R
 import com.uni.fine.model.Check
 import com.uni.fine.ui.core.extension.applyIf
 import com.uni.fine.ui.core.extension.clickableNoRipple
+import com.uni.fine.ui.core.extension.collectAsEffect
 import com.uni.fine.ui.core.extension.convertLocalDateTimeToUkrainianFormat
 import com.uni.fine.ui.theme.UniFineTheme
 import com.uni.fine.ui.theme.icons.DocumentEdit
@@ -44,9 +54,16 @@ import kotlinx.collections.immutable.ImmutableList
 import java.time.LocalDate
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onCreateCheck: () -> Unit,
+) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
+    viewModel.sideEffect.collectAsEffect {
+        when (it) {
+            HomeSideEffect.CreateCheck -> onCreateCheck()
+        }
+    }
 
     HomeScreenContent(
         state = state,
@@ -100,31 +117,42 @@ private fun HomeScreenContent(
             )
         }
         Spacer(modifier = Modifier.height(UniFineTheme.padding.gigantic))
-        if (state.checks.isEmpty()) {
-            EmptyContent()
-        } else {
-            CheckList(
-                checks = state.checks,
-                onCheckClicked = onCheckClicked
-            )
+        AnimatedContent(
+            targetState = state.checks.isEmpty(),
+            label = "",
+            transitionSpec = { fadeIn() togetherWith fadeOut() }
+        ) {
+            if (it) {
+                EmptyContent()
+            } else {
+                CheckList(
+                    checks = state.checks,
+                    onCheckClicked = onCheckClicked
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun ColumnScope.EmptyContent() {
-    Spacer(modifier = Modifier.weight(0.8f))
-    Icon(
-        imageVector = DocumentEdit,
-        contentDescription = stringResource(R.string.no_checks),
-    )
-    Text(
-        text = stringResource(R.string.no_checks),
-        style = UniFineTheme.typography.body,
-        color = UniFineTheme.colors.black,
-        modifier = Modifier.padding(UniFineTheme.padding.large)
-    )
-    Spacer(modifier = Modifier.weight(1.2f))
+private fun EmptyContent() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.weight(0.4f))
+        Icon(
+            imageVector = DocumentEdit,
+            contentDescription = stringResource(R.string.no_checks),
+        )
+        Text(
+            text = stringResource(R.string.no_checks),
+            style = UniFineTheme.typography.body,
+            color = UniFineTheme.colors.black,
+            modifier = Modifier.padding(UniFineTheme.padding.large)
+        )
+        Spacer(modifier = Modifier.weight(1.6f))
+    }
 }
 
 @Composable
@@ -133,9 +161,8 @@ private fun CheckList(
     onCheckClicked: (id: String) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.padding(
-            horizontal = UniFineTheme.padding.large
-        ),
+        modifier = Modifier
+            .padding(horizontal = UniFineTheme.padding.large),
         verticalArrangement = Arrangement.spacedBy(
             UniFineTheme.padding.average
         )
@@ -145,9 +172,11 @@ private fun CheckList(
             key = { check -> check.id }
         ) { check ->
             CheckItem(
-                modifier = Modifier.applyIf(check.id == checks.lastOrNull()?.id) {
-                    navigationBarsPadding()
-                },
+                modifier = Modifier
+                    .animateItem()
+                    .applyIf(check.id == checks.lastOrNull()?.id) {
+                        navigationBarsPadding()
+                    },
                 check = check
             ) {
                 onCheckClicked(check.id)

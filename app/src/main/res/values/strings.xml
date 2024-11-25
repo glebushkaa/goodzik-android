@@ -14,4 +14,14 @@
 
     <string name="home">Home</string>
     <string name="no_checks">There is no checks for now</string>
+
+    <string name="setup">Setup</string>
+    <string name="topic">Topic</string>
+    <string name="topic_hint">Enter text topic</string>
+    <string name="style">Style</string>
+    <string name="style_hint">Choose text style</string>
+    <string name="excluded_words">Excluded words</string>
+    <string name="excluded_words_hint">Enter excluded words for check</string>
+
+    <string name="next">Next</string>
 </resources>

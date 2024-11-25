@@ -22,6 +22,7 @@ import com.uni.fine.ui.core.extension.navigateWithFullClearedStack
 import com.uni.fine.ui.navigation.Screens
 import com.uni.fine.ui.screens.auth.AuthScreen
 import com.uni.fine.ui.screens.home.HomeScreen
+import com.uni.fine.ui.screens.setup.CheckSetupScreen
 import com.uni.fine.ui.screens.splash.SplashScreen
 import com.uni.fine.ui.theme.UniFineTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,7 +92,14 @@ class MainActivity : ComponentActivity() {
                 )
             }
             composable<Screens.Home> {
-                HomeScreen()
+                HomeScreen(
+                    onCreateCheck = {
+                        navController.navigate(Screens.CreateCheck)
+                    }
+                )
+            }
+            composable<Screens.CreateCheck> {
+                CheckSetupScreen()
             }
         }
     }
