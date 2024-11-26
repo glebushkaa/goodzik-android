@@ -16,6 +16,7 @@ class Padding(
     val massive: Dp = 32.dp,
     val gigantic: Dp = 40.dp,
     val enormous: Dp = 48.dp,
+    val colossal: Dp = 80.dp,
 )
 
 val LocalPadding = staticCompositionLocalOf { Padding() }

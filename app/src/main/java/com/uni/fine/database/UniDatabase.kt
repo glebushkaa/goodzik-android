@@ -6,9 +6,13 @@ import com.uni.fine.database.dao.CheckDao
 import com.uni.fine.database.dao.UserDao
 import com.uni.fine.database.entity.CheckEntity
 import com.uni.fine.database.entity.IssueEntity
+import com.uni.fine.database.entity.MatchEntity
 import com.uni.fine.database.entity.UserEntity
 
-@Database(entities = [UserEntity::class, CheckEntity::class, IssueEntity::class], version = 1)
+@Database(
+    entities = [UserEntity::class, CheckEntity::class, IssueEntity::class, MatchEntity::class],
+    version = 1
+)
 abstract class UniDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

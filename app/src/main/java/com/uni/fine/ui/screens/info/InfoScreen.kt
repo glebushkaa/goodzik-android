@@ -2,9 +2,15 @@
 
 package com.uni.fine.ui.screens.info
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +19,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,10 +33,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
@@ -38,12 +47,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.fine.R
 import com.uni.fine.model.CheckInfo
 import com.uni.fine.model.IssueType
+import com.uni.fine.model.Plagiarism
 import com.uni.fine.ui.core.component.Screen
+import com.uni.fine.ui.core.component.TypeChip
+import com.uni.fine.ui.core.component.UniButton
 import com.uni.fine.ui.core.extension.clickableNoRipple
+import com.uni.fine.ui.core.extension.openLink
 import com.uni.fine.ui.core.extension.thinBorder
+import com.uni.fine.ui.core.extension.toIssueColor
+import com.uni.fine.ui.core.extension.toPlagiarismColor
 import com.uni.fine.ui.core.extension.verticalScrollbar
 import com.uni.fine.ui.theme.UniFineTheme
 import com.uni.fine.ui.theme.icons.Cross
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -64,18 +80,37 @@ fun InfoScreen(
                 onIssueClick = { issueId ->
                     viewModel.sendAction(InfoAction.IssueClicked(issueId))
                 },
-                onClose = onClose
+                onClose = onClose,
+                onPlagiarismRequest = {
+                    viewModel.sendAction(InfoAction.RequestMatches)
+                }
             )
-            if (state.selectedIssue != null) {
-                ModalBottomSheet(
-                    sheetState = sheetState,
-                    onDismissRequest = {
-                        viewModel.sendAction(InfoAction.HideIssue)
-                    },
-                    content = {
-                        IssueBottomSheet(state.selectedIssue)
-                    }
-                )
+            when (state.sheet) {
+                InfoViewModel.Sheet.Issue -> {
+                    ModalBottomSheet(
+                        sheetState = sheetState,
+                        onDismissRequest = {
+                            viewModel.sendAction(InfoAction.HideIssue)
+                        },
+                        content = {
+                            IssueBottomSheet(state.selectedIssue)
+                        }
+                    )
+                }
+
+                InfoViewModel.Sheet.Plagiarism -> {
+                    ModalBottomSheet(
+                        sheetState = sheetState,
+                        onDismissRequest = {
+                            viewModel.sendAction(InfoAction.HideIssue)
+                        },
+                        content = {
+                            PlagiarismBottomSheet(state.plagiarisms)
+                        }
+                    )
+                }
+
+                null -> {}
             }
         }
 
@@ -89,7 +124,8 @@ fun InfoScreen(
 private fun InfoScreenContent(
     state: InfoState,
     onIssueClick: (String) -> Unit,
-    onClose: () -> Unit
+    onClose: () -> Unit,
+    onPlagiarismRequest: () -> Unit
 ) {
     val textScrollState = rememberScrollState()
 
@@ -114,7 +150,14 @@ private fun InfoScreenContent(
                     .clickableNoRipple(onClose)
             )
         }
-        Spacer(modifier = Modifier.height(UniFineTheme.padding.massive))
+        Spacer(modifier = Modifier.height(UniFineTheme.padding.large))
+        Text(
+            modifier = Modifier,
+            text = "AI generated probability is ${state.aiScore}%",
+            style = UniFineTheme.typography.body,
+            textDecoration = TextDecoration.Underline
+        )
+        Spacer(modifier = Modifier.height(UniFineTheme.padding.huge))
         Text(
             modifier = Modifier
                 .thinBorder()
@@ -133,6 +176,77 @@ private fun InfoScreenContent(
             style = UniFineTheme.typography.fieldText,
         )
         Spacer(modifier = Modifier.height(UniFineTheme.padding.enormous))
+        AnimatedContent(
+            modifier = Modifier
+                .height(54.dp)
+                .padding(horizontal = UniFineTheme.padding.medium),
+            targetState = state.buttonVisible,
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            label = ""
+        ) {
+            if (it) {
+                UniButton(
+                    loading = state.buttonLoading,
+                    text = stringResource(id = R.string.plagiarism_check),
+                    onClick = onPlagiarismRequest,
+                )
+            } else {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = stringResource(id = R.string.no_matches),
+                    style = UniFineTheme.typography.hugeBody,
+                    color = UniFineTheme.colors.black
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(UniFineTheme.padding.enormous))
+    }
+}
+
+@Composable
+private fun PlagiarismBottomSheet(
+    plagiarisms: ImmutableList<Plagiarism> = persistentListOf()
+) {
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .padding(horizontal = UniFineTheme.padding.huge)
+            .padding(bottom = UniFineTheme.padding.huge)
+    ) {
+        Text(
+            text = "Plagiarism probability",
+            style = UniFineTheme.typography.smallHeading,
+            modifier = Modifier
+        )
+        Spacer(modifier = Modifier.height(UniFineTheme.padding.huge))
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(
+                UniFineTheme.padding.average
+            ),
+            contentPadding = PaddingValues(bottom = UniFineTheme.padding.large)
+        ) {
+            items(
+                items = plagiarisms,
+                key = { it.id }
+            ) { plagiarism ->
+                TypeChip(
+                    text = plagiarism.probability.name,
+                    color = plagiarism.probability.toPlagiarismColor()
+                )
+                Spacer(modifier = Modifier.height(UniFineTheme.padding.medium))
+                Text(
+                    modifier = Modifier.clickableNoRipple {
+                        context.openLink(plagiarism.url)
+                    },
+                    text = plagiarism.url,
+                    style = UniFineTheme.typography.fieldText,
+                    color = UniFineTheme.colors.ocean,
+                    textDecoration = TextDecoration.Underline
+                )
+            }
+        }
     }
 }
 
@@ -151,16 +265,9 @@ private fun IssueBottomSheet(
             modifier = Modifier
         )
         Spacer(modifier = Modifier.height(UniFineTheme.padding.huge))
-        Text(
-            text = issue?.type.toString(), // TODO Replace with mapping
-            style = UniFineTheme.typography.hint,
-            modifier = Modifier
-                .background(
-                    color = UniFineTheme.colors.red,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .padding(UniFineTheme.padding.small),
-            color = UniFineTheme.colors.white
+        TypeChip(
+            text = issue?.type?.name ?: "",
+            color = issue?.type?.toIssueColor() ?: UniFineTheme.colors.red
         )
         Spacer(modifier = Modifier.height(UniFineTheme.padding.medium))
         Text(
@@ -169,16 +276,9 @@ private fun IssueBottomSheet(
             color = UniFineTheme.colors.gray
         )
         Spacer(modifier = Modifier.height(UniFineTheme.padding.large))
-        Text(
+        TypeChip(
             text = "Fixed",
-            style = UniFineTheme.typography.hint,
-            modifier = Modifier
-                .background(
-                    color = UniFineTheme.colors.green,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .padding(UniFineTheme.padding.small),
-            color = UniFineTheme.colors.white
+            color = UniFineTheme.colors.green
         )
         Spacer(modifier = Modifier.height(UniFineTheme.padding.medium))
         Text(
@@ -197,10 +297,11 @@ private fun buildAnnotatedIssuesText(
 ) = buildAnnotatedString {
     append(text)
     issues.forEach { issue ->
+        if (text.length < issue.end) return@forEach
         addStyle(
             style = SpanStyle(
-                background = UniFineTheme.colors.amber.copy(alpha = 0.2f),
-                color = UniFineTheme.colors.amber,
+                background = issue.type.toIssueColor().copy(alpha = 0.2f),
+                color = issue.type.toIssueColor(),
                 textDecoration = TextDecoration.Underline
             ),
             start = issue.start,
@@ -209,9 +310,7 @@ private fun buildAnnotatedIssuesText(
         addLink(
             clickable = LinkAnnotation.Clickable(
                 tag = issue.id,
-                linkInteractionListener = { linkAnnotation ->
-                    onClick(issue.id)
-                }
+                linkInteractionListener = { onClick(issue.id) }
             ),
             start = issue.start,
             end = issue.end
@@ -231,27 +330,25 @@ private fun InfoScreenContentPreview() {
             state = InfoState(
                 issues = persistentListOf(
                     CheckInfo.Issue(
-                        id = "dasdas",
-                        type = IssueType.Grammar,
-                        start = 0,
-                        end = 8,
-                        text = "SoftServe",
-                        message = "SoftServe is a global digital consulting and software development company that’s been around since 1993.",
-                        suggestion = "Soft Serve"
-                    )
+                        id = "1",
+                        type = IssueType.Style,
+                        text = "World War II[b] or the Second World War",
+                        message = "Unnecessary use of the square bracket citation format.",
+                        suggestion = "Remove the '[b]' and just use 'World War II' or 'the Second World War'.",
+                        start = 657,
+                        end = 804
+                    ),
                 ),
-                text = "SoftServe is a global digital consulting and software development company that’s been around since 1993. With headquarters in Austin, Texas, and Lviv, Ukraine, the company helps businesses of all sizes embrace new technologies and transform the way they operate. By focusing on innovation, scalability, and optimization, SoftServe delivers tailored solutions using cloud technology, data insights, AI, and custom software. \n" +
-                        "\n" +
-                        "SoftServe helps companies adapt to modern tech trends, making their processes more efficient and competitive. Whether it’s moving to the cloud, optimizing existing setups, or building cloud-native applications, SoftServe has you covered across platforms like AWS, Azure, and Google Cloud. From smarter decision-making to automated workflows, SoftServe builds AI-driven tools that deliver real-world results. SoftServe helps businesses unlock the value in their data, turning numbers into actionable insights that drive growth. They build software that fits your specific needs, using agile methods to ensure fast and effective delivery. Keeping businesses secure is a priority. SoftServe offers advanced assessments and strategies to safeguard data and systems. \n" +
-                        "\n" +
-                        "SoftServe works with a variety of industries, including healthcare, retail, finance, energy, and manufacturing. They design solutions tailored to each industry’s unique challenges, helping businesses achieve their goals. \n" +
-                        "\n" +
-                        "With over 13,000 team members spread across North America, Europe, and Asia, SoftServe combines global knowledge with local expertise. They’re known for their innovative approach, collaborative culture, and strong partnerships with tech giants like Microsoft, AWS, and Google. \n" +
-                        "\n" +
-                        "SoftServe’s work doesn’t go unnoticed—they’ve earned a reputation for their forward-thinking solutions, strong workplace culture, and impactful contributions to the tech industry. In short, SoftServe is more than just a tech company—it’s a partner that helps businesses thrive in today’s fast-paced digital world."
+                text = """SoftServe Overview
+
+SoftServe is a leading global IT and consulting company specializing in software development, digital transformation, and IT services. Founded in 1993, the company is headquartered in Austin, Texas, with a strong presence in Europe and offices across the globe, including major hubs in Ukraine, Poland, Bulgaria, and other regions. 
+
+SoftServe offers a wide range of solutions to businesses, enabling them to innovate and improve operational efficiency. Its expertise spans areas such as cloud computing, artificial intelligence, machine learning, cybersecurity, data analytics, Internet of Things (IoT), and customer experience design. By leveraging cutting-edge technologies and deep industry expertise, SoftServe delivers tailored solutions that align with clients' strategic goals.
+"""
             ),
             onIssueClick = {},
-            onClose = {}
+            onClose = {},
+            onPlagiarismRequest = {}
         )
     }
 }

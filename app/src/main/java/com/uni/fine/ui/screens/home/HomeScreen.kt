@@ -30,12 +30,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.fine.R
 import com.uni.fine.model.Check
+import com.uni.fine.ui.core.component.Screen
 import com.uni.fine.ui.core.extension.applyIf
 import com.uni.fine.ui.core.extension.clickableNoRipple
 import com.uni.fine.ui.core.extension.collectAsEffect
@@ -52,20 +54,21 @@ fun HomeScreen(
     onCreateCheck: () -> Unit,
     onCheckInfo: (id: String) -> Unit,
 ) {
-    val viewModel = hiltViewModel<HomeViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    viewModel.sideEffect.collectAsEffect {
-        when (it) {
-            HomeSideEffect.CreateCheck -> onCreateCheck()
+    Screen<HomeViewModel> { viewModel ->
+        val state by viewModel.state.collectAsStateWithLifecycle()
+        viewModel.sideEffect.collectAsEffect {
+            when (it) {
+                HomeSideEffect.CreateCheck -> onCreateCheck()
+            }
         }
-    }
 
-    HomeScreenContent(
-        state = state,
-        onCheckClicked = onCheckInfo,
-        onCreateCheck = { viewModel.sendAction(HomeAction.CreateCheckClicked) },
-        onLogOut = { viewModel.sendAction(HomeAction.LogOutClicked) }
-    )
+        HomeScreenContent(
+            state = state,
+            onCheckClicked = onCheckInfo,
+            onCreateCheck = { viewModel.sendAction(HomeAction.CreateCheckClicked) },
+            onLogOut = { viewModel.sendAction(HomeAction.LogOutClicked) }
+        )
+    }
 }
 
 @Composable
@@ -202,18 +205,21 @@ private fun CheckItem(
             .clickableNoRipple(onClick = onClick),
     ) {
         Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
+                modifier = Modifier.weight(1f),
                 text = check.title,
                 textDecoration = TextDecoration.Underline,
                 maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 style = UniFineTheme.typography.body.copy(
                     fontWeight = FontWeight.Medium
                 ),
                 color = UniFineTheme.colors.black
             )
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(UniFineTheme.padding.average))
             Text(
                 text = check.createdAt.convertLocalDateTimeToUkrainianFormat(),
                 maxLines = 1,
@@ -227,6 +233,7 @@ private fun CheckItem(
         Text(
             text = check.summary,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             style = UniFineTheme.typography.fieldTitle,
             color = UniFineTheme.colors.gray
         )

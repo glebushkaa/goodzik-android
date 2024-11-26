@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uni.fine.model.IssueType
 
-@Entity
+@Entity("issue_entity")
 data class IssueEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo("id")

@@ -17,13 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.fine.R
 import com.uni.fine.ui.core.component.OnBackEventListener
+import com.uni.fine.ui.core.component.Screen
 import com.uni.fine.ui.core.component.TopBar
 import com.uni.fine.ui.core.component.UniButton
 import com.uni.fine.ui.core.component.UniTextField
@@ -31,37 +30,36 @@ import com.uni.fine.ui.core.extension.clickableNoRipple
 import com.uni.fine.ui.core.extension.collectAsEffect
 import com.uni.fine.ui.theme.UniFineTheme
 
-// TODO Add Password Icon
-
 @Composable
 fun AuthScreen(
     onBack: () -> Unit,
     onHome: () -> Unit,
 ) {
-    val viewModel = hiltViewModel<AuthViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    Screen<AuthViewModel> { viewModel ->
+        val state by viewModel.state.collectAsStateWithLifecycle()
 
-    viewModel.sideEffect.collectAsEffect {
-        when (it) {
-            AuthSideEffect.Back -> onBack()
-            AuthSideEffect.Home -> onHome()
+        viewModel.sideEffect.collectAsEffect {
+            when (it) {
+                AuthSideEffect.Back -> onBack()
+                AuthSideEffect.Home -> onHome()
+            }
         }
+
+        OnBackEventListener(
+            onBack = { viewModel.sendAction(AuthAction.Back) },
+            disableSystemBackPressed = true,
+        )
+
+        AuthScreenContent(
+            state = state,
+            onCreateAccount = { viewModel.sendAction(AuthAction.CreateAccount) },
+            onCreateAccountMode = { viewModel.sendAction(AuthAction.CreateAccountMode) },
+            onPasswordUpdate = { viewModel.sendAction(AuthAction.UpdatePassword(it)) },
+            onEmailUpdate = { viewModel.sendAction(AuthAction.UpdateEmail(it)) },
+            onConfirmPasswordUpdate = { viewModel.sendAction(AuthAction.UpdateConfirmPassword(it)) },
+            onLogin = { viewModel.sendAction(AuthAction.Login) },
+        )
     }
-
-    OnBackEventListener(
-        onBack = { viewModel.sendAction(AuthAction.Back) },
-        disableSystemBackPressed = true,
-    )
-
-    AuthScreenContent(
-        state = state,
-        onCreateAccount = { viewModel.sendAction(AuthAction.CreateAccount) },
-        onCreateAccountMode = { viewModel.sendAction(AuthAction.CreateAccountMode) },
-        onPasswordUpdate = { viewModel.sendAction(AuthAction.UpdatePassword(it)) },
-        onEmailUpdate = { viewModel.sendAction(AuthAction.UpdateEmail(it)) },
-        onConfirmPasswordUpdate = { viewModel.sendAction(AuthAction.UpdateConfirmPassword(it)) },
-        onLogin = { viewModel.sendAction(AuthAction.Login) },
-    )
 }
 
 @Composable
@@ -114,7 +112,7 @@ private fun AuthScreenContent(
         UniTextField(
             text = state.password,
             hint = stringResource(R.string.password_hint),
-            visualTransformation = PasswordVisualTransformation(),
+            isPassword = true,
             onTextChange = onPasswordUpdate,
         )
         if (isLogin) {
@@ -143,7 +141,7 @@ private fun AuthScreenContent(
                 UniTextField(
                     text = state.confirmPassword,
                     hint = stringResource(R.string.confirm_password_hint),
-                    visualTransformation = PasswordVisualTransformation(),
+                    isPassword = true,
                     onTextChange = onConfirmPasswordUpdate,
                 )
             }

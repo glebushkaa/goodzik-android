@@ -6,7 +6,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.fine.ui.core.BaseViewModel
+import com.uni.fine.ui.core.extension.clickableNoRipple
 import com.uni.fine.ui.theme.UniFineTheme
 
 @Composable
@@ -49,11 +52,24 @@ inline fun <reified VM : BaseViewModel> BaseContent(
     content: @Composable (VM) -> Unit
 ) {
     val loading by viewModel.loading.collectAsStateWithLifecycle()
+    val toast by viewModel.toast.collectAsStateWithLifecycle(null)
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         content(viewModel)
+
+        toast?.let {
+            ToastMessage(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .fillMaxSize()
+                    .padding(top = UniFineTheme.padding.massive)
+                    .padding(horizontal = UniFineTheme.padding.massive),
+                toastMessageData = it,
+            )
+        }
+
         AnimatedVisibility(
             visible = loading,
             enter = fadeIn(),
@@ -62,7 +78,8 @@ inline fun <reified VM : BaseViewModel> BaseContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(UniFineTheme.colors.black.copy(alpha = 0.7f)),
+                    .background(UniFineTheme.colors.black.copy(alpha = 0.7f))
+                    .clickableNoRipple { },
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(

@@ -33,4 +33,6 @@
     <string name="clear">Clear</string>
 
     <string name="summary">Summary</string>
+    <string name="plagiarism_check">Plagiarism check</string>
+    <string name="no_matches">No matches found</string>
 </resources>

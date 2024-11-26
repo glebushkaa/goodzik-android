@@ -1,6 +1,7 @@
 package com.uni.fine.ui.core.extension
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 
@@ -13,4 +14,8 @@ fun Uri.fileName(context: Context): String? {
     } else {
         path?.substringAfterLast('/')
     }
+}
+
+fun Context.openLink(url: String) {
+    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }

@@ -17,6 +17,8 @@ data class CreatedCheckResponse(
     val issues: List<Issue>,
     @SerialName("createdAt")
     val createdAt: String,
+    @SerialName("aiScore")
+    val aiScore: Double,
 ) {
     @Serializable
     data class Issue(

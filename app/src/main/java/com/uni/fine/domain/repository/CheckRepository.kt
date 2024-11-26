@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CheckRepository {
 
+    suspend fun requestMatchesUpdate(checkId: String): Boolean
     suspend fun requestCheckUpdate(id: String)
     suspend fun getCheckWithIssuesById(id: String): Flow<CheckInfo>
     suspend fun requestChecksUpdate()

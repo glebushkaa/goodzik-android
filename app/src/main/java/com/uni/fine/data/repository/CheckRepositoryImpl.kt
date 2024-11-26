@@ -1,20 +1,27 @@
 package com.uni.fine.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.core.net.toUri
 import com.uni.fine.data.mapper.toDomain
 import com.uni.fine.data.mapper.toEntity
 import com.uni.fine.database.dao.CheckDao
 import com.uni.fine.database.entity.CheckEntity
-import com.uni.fine.database.entity.CheckWithIssues
+import com.uni.fine.database.entity.CheckWithIssuesAndMatches
+import com.uni.fine.database.entity.IssueEntity
 import com.uni.fine.domain.repository.CheckRepository
 import com.uni.fine.model.Check
 import com.uni.fine.model.CheckInfo
 import com.uni.fine.model.CheckSetup
 import com.uni.fine.model.CheckStyle
 import com.uni.fine.network.api.CheckApi
+import com.uni.fine.network.model.request.MatchesRequest
 import com.uni.fine.network.model.response.CheckInfoResponse
+import com.uni.fine.network.model.response.CreatedCheckResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
@@ -22,6 +29,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class CheckRepositoryImpl @Inject constructor(
     @ApplicationContext
@@ -32,6 +40,15 @@ class CheckRepositoryImpl @Inject constructor(
 
     private var recentCheckSetup: CheckSetup? = null
 
+    override suspend fun requestMatchesUpdate(checkId: String): Boolean {
+        val result = MatchesRequest(checkId)
+        val list = checkApi.requestMatches(id = checkId, request = result).map {
+            it.toEntity(checkId)
+        }
+        checkDao.upsertMatches(list)
+        return list.isNotEmpty()
+    }
+
     override suspend fun requestCheckUpdate(id: String) {
         val result = checkApi.getCheck(id)
         val check = result.toEntity()
@@ -40,7 +57,7 @@ class CheckRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCheckWithIssuesById(id: String): Flow<CheckInfo> {
-        return checkDao.getCheckWithIssuesById(id).map(CheckWithIssues::toDomain)
+        return checkDao.getCheckWithIssuesById(id).map(CheckWithIssuesAndMatches::toDomain)
     }
 
     override suspend fun requestChecksUpdate() {

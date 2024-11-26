@@ -17,4 +17,6 @@ data class CheckEntity(
     val summary: String,
     @ColumnInfo("createdAt")
     val createdAt: String,
+    @ColumnInfo("aiScore")
+    val aiScore: Int
 )

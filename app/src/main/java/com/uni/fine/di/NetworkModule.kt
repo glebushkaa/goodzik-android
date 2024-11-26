@@ -1,6 +1,7 @@
 package com.uni.fine.di
 
 import com.uni.fine.database.dao.UserDao
+import com.uni.fine.domain.SessionState
 import com.uni.fine.network.api.AuthApi
 import com.uni.fine.network.api.CheckApi
 import dagger.Module
@@ -24,8 +25,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private val GLOBAL_TIMEOUT = Duration.ofSeconds(10)
-    private const val BASE_URL = "https://unifine.eventbook.pp.ua/"
+    private val GLOBAL_TIMEOUT = Duration.ofSeconds(120)
+    private const val BASE_URL = "https://813d-217-24-175-3.ngrok-free.app/"
 
     @Provides
     @Singleton
@@ -45,9 +46,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttp(userDao: UserDao): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttp(
+        userDao: UserDao,
+        sessionState: SessionState
+    ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(buildLoggingInterceptor())
         .addInterceptor(buildAuthInterceptor(userDao))
+        .addInterceptor(buildSessionInterceptor(sessionState))
         .setTimeouts()
         .build()
 
@@ -85,6 +90,14 @@ object NetworkModule {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
+    }
+
+    private fun buildSessionInterceptor(sessionState: SessionState): Interceptor = Interceptor {
+        val response = it.proceed(it.request())
+        if (response.code == 401) {
+            runBlocking { sessionState.logOut() }
+        }
+        response
     }
 
     private fun OkHttpClient.Builder.setTimeouts(): OkHttpClient.Builder {

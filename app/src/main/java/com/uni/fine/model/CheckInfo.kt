@@ -9,6 +9,8 @@ data class CheckInfo(
     val summary: String,
     val createdAt: LocalDate,
     val issues: List<Issue>,
+    val aiScore: Int,
+    val plagiarism: List<Plagiarism>
 ) {
     data class Issue(
         val id: String,
