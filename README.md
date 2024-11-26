@@ -1,6 +1,6 @@
 # 🎓UniFine
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-purple.svg)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-purple.svg)](https://kotlinlang.org/)
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
