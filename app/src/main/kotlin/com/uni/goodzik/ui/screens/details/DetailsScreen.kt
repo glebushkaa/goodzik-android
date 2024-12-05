@@ -3,6 +3,7 @@ package com.uni.goodzik.ui.screens.details
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +39,8 @@ import com.uni.goodzik.ui.theme.GoodzikTheme
 @Composable
 fun DetailsScreen(
     id: String,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    onChat: () -> Unit,
 ) {
     Screen<DetailsViewModel, DetailsViewModel.Factory>(
         creationCallback = { factory -> factory.create(id) }
@@ -47,7 +49,8 @@ fun DetailsScreen(
 
         DetailsScreenContent(
             state = state,
-            onNext = onNext
+            onNext = onNext,
+            onChat = onChat
         )
     }
 }
@@ -55,7 +58,8 @@ fun DetailsScreen(
 @Composable
 private fun DetailsScreenContent(
     state: DetailsState,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    onChat: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -107,34 +111,50 @@ private fun DetailsScreenContent(
             Text(
                 modifier = Modifier
                     .verticalScroll(scrollState)
-                    .padding(
-                        bottom = GoodzikTheme.padding.colossal,
-                        end = GoodzikTheme.padding.average
-                    )
+                    .padding(bottom = GoodzikTheme.padding.colossal)
                     .verticalScrollbar(
                         scrollState = scrollState,
                         color = GoodzikTheme.colors.black,
                         indicatorSize = DpSize(2.dp, 40.dp)
-                    ),
+                    )
+                    .padding(end = GoodzikTheme.padding.average),
                 text = state.description,
                 color = GoodzikTheme.colors.description,
                 style = GoodzikTheme.typography.fieldTitle
             )
         }
-        Icon(
+        Row(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(GoodzikTheme.padding.huge)
-                .background(
-                    color = GoodzikTheme.colors.black,
-                    shape = RoundedCornerShape(12.dp)
-                )
-                .clickableNoRipple(onClick = onNext)
-                .padding(GoodzikTheme.padding.large)
-                .size(24.dp),
-            tint = GoodzikTheme.colors.snow,
-            painter = painterResource(R.drawable.next),
-            contentDescription = null,
-        )
+        ) {
+            Icon(
+                modifier = Modifier
+                    .background(
+                        color = GoodzikTheme.colors.black,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clickableNoRipple(onClick = onChat)
+                    .padding(GoodzikTheme.padding.large)
+                    .size(24.dp),
+                tint = GoodzikTheme.colors.snow,
+                painter = painterResource(R.drawable.message),
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.size(GoodzikTheme.padding.large))
+            Icon(
+                modifier = Modifier
+                    .background(
+                        color = GoodzikTheme.colors.black,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clickableNoRipple(onClick = onNext)
+                    .padding(GoodzikTheme.padding.large)
+                    .size(24.dp),
+                tint = GoodzikTheme.colors.snow,
+                painter = painterResource(R.drawable.next),
+                contentDescription = null,
+            )
+        }
     }
 }

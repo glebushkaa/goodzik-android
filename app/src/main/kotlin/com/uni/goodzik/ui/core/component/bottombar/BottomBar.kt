@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,7 +55,7 @@ fun BottomNavigationBar(
     val animatedXOffset by animateDpAsState(
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessVeryLow
+            stiffness = Spring.StiffnessLow
         ),
         targetValue = xOffset,
         label = "",
@@ -63,8 +64,8 @@ fun BottomNavigationBar(
     AnimatedVisibility(
         modifier = modifier,
         visible = shown,
-        enter = slideInVertically { it },
-        exit = fadeOut()
+        enter = slideInVertically { it * 2 },
+        exit = slideOutVertically { it * 2 }
     ) {
         Box(
             modifier = Modifier
@@ -120,7 +121,7 @@ private fun BottomBarItem(
         label = "",
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessVeryLow
+            stiffness = Spring.StiffnessLow
         )
     )
 

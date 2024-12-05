@@ -29,4 +29,7 @@ sealed interface Screens {
 
     @Serializable
     data class NewsDetails(val id: String) : Screens
+
+    @Serializable
+    data class Chat(val id: String) : Screens
 }

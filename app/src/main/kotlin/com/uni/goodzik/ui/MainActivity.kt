@@ -30,6 +30,7 @@ import com.uni.goodzik.ui.core.extension.collectAsEffect
 import com.uni.goodzik.ui.core.extension.navigateWithFullClearedStack
 import com.uni.goodzik.ui.navigation.Screens
 import com.uni.goodzik.ui.screens.auth.AuthScreen
+import com.uni.goodzik.ui.screens.chat.ChatScreen
 import com.uni.goodzik.ui.screens.details.DetailsScreen
 import com.uni.goodzik.ui.screens.guides.GuidesScreen
 import com.uni.goodzik.ui.screens.news.NewsScreen
@@ -144,11 +145,19 @@ class MainActivity : ComponentActivity() {
             }
             composable<Screens.Details> {
                 val id = it.toRoute<Screens.Details>().id
-                DetailsScreen(id = id) {
-                    navController.navigate(Screens.Steps(id)) {
-                        popUpTo(Screens.Guides) { inclusive = false }
+                DetailsScreen(
+                    id = id,
+                    onNext = {
+                        navController.navigate(Screens.Steps(id)) {
+                            popUpTo(Screens.Guides) { inclusive = false }
+                        }
+                    },
+                    onChat = {
+                        navController.navigate(Screens.Chat(id)) {
+                            popUpTo(Screens.Guides) { inclusive = false }
+                        }
                     }
-                }
+                )
             }
             composable<Screens.Steps> {
                 val id = it.toRoute<Screens.Steps>().id
@@ -158,6 +167,11 @@ class MainActivity : ComponentActivity() {
             composable<Screens.NewsDetails> {
                 val id = it.toRoute<Screens.NewsDetails>().id
                 NewsDetailsScreen(id)
+            }
+
+            composable<Screens.Chat> {
+                val id = it.toRoute<Screens.Chat>().id
+                ChatScreen(id)
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.uni.goodzik.ui.core.extension
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -13,5 +14,10 @@ internal fun String.toLocalDate(): LocalDate {
 
 fun LocalDate.convertLocalDateTimeToUkrainianFormat(): String {
     val outputFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale("uk"))
+    return this.format(outputFormat)
+}
+
+fun LocalDateTime.convertLocalDateTimeToUkrainianFormat(): String {
+    val outputFormat = DateTimeFormatter.ofPattern("HH:mm", Locale("uk"))
     return this.format(outputFormat)
 }
