@@ -57,7 +57,7 @@ private fun ProfileScreenContent(state: ProfileState) {
             style = GoodzikTheme.typography.heading,
             color = GoodzikTheme.colors.black
         )
-        Spacer(modifier = Modifier.padding(GoodzikTheme.padding.massive))
+        Spacer(modifier = Modifier.padding(GoodzikTheme.padding.large))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
