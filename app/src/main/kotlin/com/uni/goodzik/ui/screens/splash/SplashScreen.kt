@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.uni.goodzik.R
 import com.uni.goodzik.ui.core.extension.collectAsEffect
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
 fun SplashScreen(
@@ -33,20 +33,20 @@ fun SplashScreen(
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(
-            space = UniFineTheme.padding.huge,
+            space = GoodzikTheme.padding.huge,
             alignment = Alignment.CenterVertically
         ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier.size(128.dp),
-            painter = painterResource(id = R.drawable.uni_fine),
+            painter = painterResource(id = R.drawable.goodzik),
             contentDescription = null
         )
         Text(
             text = stringResource(R.string.app_name),
-            style = UniFineTheme.typography.extraHeading,
-            color = UniFineTheme.colors.black
+            style = GoodzikTheme.typography.extraHeading,
+            color = GoodzikTheme.colors.black
         )
     }
 }

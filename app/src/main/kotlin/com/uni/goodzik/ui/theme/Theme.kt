@@ -4,19 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
 @Composable
-fun UniFineTheme(
+fun GoodzikTheme(
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(
-        LocalColors provides UniFineTheme.colors,
-        LocalTypography provides UniFineTheme.typography,
-        LocalPadding provides UniFineTheme.padding,
+        LocalColors provides GoodzikTheme.colors,
+        LocalTypography provides GoodzikTheme.typography,
+        LocalPadding provides GoodzikTheme.padding,
         content = content
     )
 }
 
-object UniFineTheme {
-    val colors: UniColor
+object GoodzikTheme {
+    val colors: GoodzikColor
         @Composable
         get() = LocalColors.current
     val typography: UniTypography

@@ -5,15 +5,18 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 @Immutable
-data class UniColor(
+data class GoodzikColor(
     val amber: Color = Color(0xFFFFB350),
     val black: Color = Color(0xFF000000),
-    val white: Color = Color(0xFFFFFFFF),
+    val snow: Color = Color(0xFFFFFFFF),
+    val milk: Color = Color(0xFFF9F9F9),
     val ocean: Color = Color(0xFF5686FF),
     val gray: Color = Color(0xFF666666),
+    val description: Color = Color(0xFF7D82A1),
     val red: Color = Color(0xFFFF7676),
-    val green: Color = Color(0xFFA2C796),
+    val green: Color = Color(0xFF1FC16B),
+    val purple: Color = Color(0xFFBC7AF2),
 )
 
-val LocalColors = staticCompositionLocalOf { UniColor() }
+val LocalColors = staticCompositionLocalOf { GoodzikColor() }
 

@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
 fun UniButton(
@@ -39,27 +39,27 @@ fun UniButton(
         enabled = enabled,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (loading) UniFineTheme.colors.amber.copy(alpha = 0.7f) else UniFineTheme.colors.amber,
-            disabledContainerColor = UniFineTheme.colors.gray,
+            containerColor = if (loading) GoodzikTheme.colors.amber.copy(alpha = 0.7f) else GoodzikTheme.colors.amber,
+            disabledContainerColor = GoodzikTheme.colors.gray,
         )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AnimatedVisibility(
-                modifier = Modifier.padding(end = UniFineTheme.padding.large),
+                modifier = Modifier.padding(end = GoodzikTheme.padding.large),
                 visible = loading,
                 enter = fadeIn() + expandHorizontally(),
                 exit = fadeOut() + shrinkHorizontally(),
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(18.dp),
-                    color = UniFineTheme.colors.white,
+                    color = GoodzikTheme.colors.snow,
                     strokeWidth = 2.dp
                 )
             }
             Text(
                 text = text,
-                color = UniFineTheme.colors.white,
-                style = UniFineTheme.typography.body
+                color = GoodzikTheme.colors.snow,
+                style = GoodzikTheme.typography.body
             )
         }
     }

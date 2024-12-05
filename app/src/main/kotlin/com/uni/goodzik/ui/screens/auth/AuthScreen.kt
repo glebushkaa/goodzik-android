@@ -29,7 +29,7 @@ import com.uni.goodzik.ui.core.component.UniButton
 import com.uni.goodzik.ui.core.component.UniTextField
 import com.uni.goodzik.ui.core.extension.clickableNoRipple
 import com.uni.goodzik.ui.core.extension.collectAsEffect
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
 fun AuthScreen(
@@ -84,7 +84,7 @@ private fun AuthScreenContent(
             .fillMaxSize()
             .imePadding()
             .navigationBarsPadding()
-            .padding(horizontal = UniFineTheme.padding.gigantic)
+            .padding(horizontal = GoodzikTheme.padding.gigantic)
     ) {
         TopBar(
             modifier = Modifier.heightIn(min = 180.dp),
@@ -93,25 +93,25 @@ private fun AuthScreenContent(
             } else {
                 stringResource(R.string.create_account)
             },
-            textStyle = UniFineTheme.typography.extraHeading
+            textStyle = GoodzikTheme.typography.extraHeading
         )
-        Spacer(modifier = Modifier.padding(top = UniFineTheme.padding.huge))
+        Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.huge))
         Text(
             text = stringResource(R.string.email),
-            style = UniFineTheme.typography.body,
+            style = GoodzikTheme.typography.body,
         )
-        Spacer(modifier = Modifier.padding(top = UniFineTheme.padding.small))
+        Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.small))
         UniTextField(
             text = state.email,
             hint = stringResource(R.string.email_hint),
             onTextChange = onEmailUpdate,
         )
-        Spacer(modifier = Modifier.padding(top = UniFineTheme.padding.huge))
+        Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.huge))
         Text(
             text = stringResource(R.string.password),
-            style = UniFineTheme.typography.body,
+            style = GoodzikTheme.typography.body,
         )
-        Spacer(modifier = Modifier.padding(top = UniFineTheme.padding.small))
+        Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.small))
         UniTextField(
             text = state.password,
             hint = stringResource(R.string.password_hint),
@@ -121,15 +121,15 @@ private fun AuthScreenContent(
         if (isLogin) {
             Text(
                 modifier = Modifier
-                    .padding(top = UniFineTheme.padding.average)
+                    .padding(top = GoodzikTheme.padding.average)
                     .clickableNoRipple(onClick = onCreateAccountMode),
                 text = stringResource(R.string.create_new_account),
-                color = UniFineTheme.colors.ocean,
+                color = GoodzikTheme.colors.ocean,
                 textDecoration = TextDecoration.Underline,
-                style = UniFineTheme.typography.hint,
+                style = GoodzikTheme.typography.hint,
             )
         }
-        Spacer(modifier = Modifier.padding(top = UniFineTheme.padding.huge))
+        Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.huge))
         AnimatedVisibility(
             visible = !isLogin,
             enter = slideInHorizontally { it * 2 },
@@ -138,9 +138,9 @@ private fun AuthScreenContent(
             Column {
                 Text(
                     text = stringResource(R.string.confirm_password),
-                    style = UniFineTheme.typography.body,
+                    style = GoodzikTheme.typography.body,
                 )
-                Spacer(modifier = Modifier.padding(top = UniFineTheme.padding.small))
+                Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.small))
                 UniTextField(
                     text = state.confirmPassword,
                     hint = stringResource(R.string.confirm_password_hint),
@@ -152,7 +152,7 @@ private fun AuthScreenContent(
         Spacer(modifier = Modifier.weight(1f))
         UniButton(
             modifier = Modifier.padding(
-                horizontal = UniFineTheme.padding.medium,
+                horizontal = GoodzikTheme.padding.medium,
             ),
             enabled = state.buttonEnabled,
             text = if (isLogin) {
@@ -165,6 +165,6 @@ private fun AuthScreenContent(
                 if (isLogin) onLogin() else onCreateAccount()
             },
         )
-        Spacer(modifier = Modifier.padding(top = UniFineTheme.padding.enormous))
+        Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.enormous))
     }
 }

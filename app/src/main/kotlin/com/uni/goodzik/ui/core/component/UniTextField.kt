@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.uni.goodzik.ui.core.extension.applyIf
 import com.uni.goodzik.ui.core.extension.clickableNoRipple
 import com.uni.goodzik.ui.core.extension.thinBorder
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 import com.uni.goodzik.ui.theme.icons.HidePassword
 import com.uni.goodzik.ui.theme.icons.ShowPassword
 
@@ -49,7 +49,7 @@ fun UniTextField(
             .thinBorder(),
         value = text,
         onValueChange = onTextChange,
-        textStyle = UniFineTheme.typography.fieldText,
+        textStyle = GoodzikTheme.typography.fieldText,
         visualTransformation = if (isPassword && !revealed) {
             PasswordVisualTransformation()
         } else {
@@ -62,11 +62,11 @@ fun UniTextField(
                 modifier = innerModifier
                     .fillMaxWidth()
                     .padding(
-                        start = UniFineTheme.padding.average,
-                        end = UniFineTheme.padding.large
+                        start = GoodzikTheme.padding.average,
+                        end = GoodzikTheme.padding.large
                     )
                     .applyIf(!centered) {
-                        padding(vertical = UniFineTheme.padding.average)
+                        padding(vertical = GoodzikTheme.padding.average)
                     }
                     .graphicsLayer {
                         alpha = if (enabled) 1f else 0.4f
@@ -78,8 +78,8 @@ fun UniTextField(
                         Text(
                             modifier = Modifier.align(Alignment.CenterStart),
                             text = hint,
-                            style = UniFineTheme.typography.hint,
-                            color = UniFineTheme.colors.gray,
+                            style = GoodzikTheme.typography.hint,
+                            color = GoodzikTheme.colors.gray,
                             maxLines = maxLines,
                         )
                     }

@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.goodzik.ui.core.BaseViewModel
 import com.uni.goodzik.ui.core.extension.clickableNoRipple
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
 inline fun <reified VM : BaseViewModel> Screen(
@@ -64,8 +64,8 @@ inline fun <reified VM : BaseViewModel> BaseContent(
                 modifier = Modifier
                     .statusBarsPadding()
                     .fillMaxSize()
-                    .padding(top = UniFineTheme.padding.massive)
-                    .padding(horizontal = UniFineTheme.padding.massive),
+                    .padding(top = GoodzikTheme.padding.massive)
+                    .padding(horizontal = GoodzikTheme.padding.massive),
                 toastMessageData = it,
             )
         }
@@ -78,12 +78,12 @@ inline fun <reified VM : BaseViewModel> BaseContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(UniFineTheme.colors.black.copy(alpha = 0.7f))
+                    .background(GoodzikTheme.colors.black.copy(alpha = 0.7f))
                     .clickableNoRipple { },
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
-                    color = UniFineTheme.colors.amber,
+                    color = GoodzikTheme.colors.amber,
                     modifier = Modifier.size(48.dp)
                 )
             }

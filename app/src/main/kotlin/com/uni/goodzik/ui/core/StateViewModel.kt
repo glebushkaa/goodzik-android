@@ -27,10 +27,12 @@ abstract class BaseViewModel : ViewModel() {
 
     fun launch(
         context: CoroutineContext = EmptyCoroutineContext,
+        loadingEnabled: Boolean = true,
         onError: (e: Exception) -> Unit = {},
         block: suspend () -> Unit,
     ): Job = viewModelScope.launch(context = context) {
         try {
+            if (loadingEnabled) _loading.update { true }
             block()
         } catch (e: Exception) {
             onError(e)

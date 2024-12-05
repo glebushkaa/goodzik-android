@@ -6,19 +6,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
 fun TopBar(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = UniFineTheme.typography.heading,
+    textStyle: TextStyle = GoodzikTheme.typography.heading,
 ) {
     Text(
         modifier = modifier
             .statusBarsPadding()
-            .padding(top = UniFineTheme.padding.enormous)
-            .padding(end = UniFineTheme.padding.average),
+            .padding(top = GoodzikTheme.padding.enormous)
+            .padding(end = GoodzikTheme.padding.average),
         text = text,
         style = textStyle,
     )

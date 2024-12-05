@@ -35,7 +35,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.uni.goodzik.ui.core.extension.clickableNoRipple
 import com.uni.goodzik.ui.core.extension.thinBorder
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 
@@ -121,7 +121,7 @@ inline fun <reified T> CustomBuildDropDown(
     ) {
         Column(
             modifier = Modifier
-                .background(UniFineTheme.colors.white)
+                .background(GoodzikTheme.colors.snow)
                 .fillMaxWidth(),
             content = {
                 list.forEachIndexed { index, item ->
@@ -152,19 +152,19 @@ fun SelectedDropdownItem(
             .thinBorder()
             .heightIn(min = 50.dp)
             .fillMaxWidth()
-            .background(UniFineTheme.colors.white)
+            .background(GoodzikTheme.colors.snow)
             .padding(
-                start = UniFineTheme.padding.average,
-                end = UniFineTheme.padding.large
+                start = GoodzikTheme.padding.average,
+                end = GoodzikTheme.padding.large
             )
-            .padding(vertical = UniFineTheme.padding.medium),
+            .padding(vertical = GoodzikTheme.padding.medium),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             modifier = Modifier.weight(1f),
             text = text,
-            color = UniFineTheme.colors.black,
-            style = UniFineTheme.typography.fieldText
+            color = GoodzikTheme.colors.black,
+            style = GoodzikTheme.typography.fieldText
         )
         if (arrowVisible) {
             Icon(
@@ -175,7 +175,7 @@ fun SelectedDropdownItem(
                     .graphicsLayer {
                         rotationZ = angle
                     },
-                tint = UniFineTheme.colors.black.copy(alpha = 0.3f)
+                tint = GoodzikTheme.colors.black.copy(alpha = 0.3f)
             )
         }
     }

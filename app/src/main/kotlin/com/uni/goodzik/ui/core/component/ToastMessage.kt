@@ -22,7 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 import kotlinx.coroutines.delay
 
 private const val MAX_ANIMATION_DURATION = 600
@@ -62,14 +62,14 @@ fun ToastMessage(
             ) {
                 Text(
                     modifier = Modifier.padding(
-                        start = UniFineTheme.padding.large,
-                        end = UniFineTheme.padding.medium,
-                        top = UniFineTheme.padding.large,
-                        bottom = UniFineTheme.padding.large,
+                        start = GoodzikTheme.padding.large,
+                        end = GoodzikTheme.padding.medium,
+                        top = GoodzikTheme.padding.large,
+                        bottom = GoodzikTheme.padding.large,
                     ),
                     text = toastMessageData.text,
-                    style = UniFineTheme.typography.fieldText,
-                    color = UniFineTheme.colors.white,
+                    style = GoodzikTheme.typography.fieldText,
+                    color = GoodzikTheme.colors.snow,
                 )
             }
         }
@@ -96,7 +96,7 @@ class ToastMessageData(
 @Composable
 fun ToastMessageData.Type?.toColor(): Color {
     return when (this) {
-        ToastMessageData.Type.Error -> UniFineTheme.colors.red
-        else -> UniFineTheme.colors.green
+        ToastMessageData.Type.Error -> GoodzikTheme.colors.red
+        else -> GoodzikTheme.colors.green
     }
 }

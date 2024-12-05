@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.uni.setup"
+    namespace = "com.uni.goodzik"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.uni.setup"
+        applicationId = "com.uni.goodzik"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

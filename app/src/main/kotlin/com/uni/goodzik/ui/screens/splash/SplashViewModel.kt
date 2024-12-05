@@ -22,11 +22,12 @@ class SplashViewModel @Inject constructor(
 
     private fun checkUserLoggedIn() {
         launch {
-            delay(2000)
-            val isLoggedIn = authRepository.isUserLoggedIn()
+           delay(2000)
+            /*val isLoggedIn = authRepository.isUserLoggedIn()
             _sideEffect.tryEmit(
                 if (isLoggedIn) SplashSideEffect.NavigateToHome else SplashSideEffect.NavigateToAuth
-            )
+            )*/
+            _sideEffect.tryEmit(SplashSideEffect.NavigateToHome)
         }
     }
 }

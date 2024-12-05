@@ -8,4 +8,16 @@ sealed interface Screens {
 
     @Serializable
     data object Auth : Screens
+
+    @Serializable
+    data object Profile: Screens
+
+    @Serializable
+    data object News: Screens
+
+    @Serializable
+    data object Guides: Screens
+
+    @Serializable
+    data object Donate: Screens
 }

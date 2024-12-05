@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
 fun Modifier.clickableNoRipple(
@@ -63,7 +63,7 @@ fun Modifier.verticalScrollbar(
 
 @Composable
 fun Modifier.thinBorder(
-    color: Color = UniFineTheme.colors.black
+    color: Color = GoodzikTheme.colors.black
 ) = border(
     width = 1.dp,
     color = color,

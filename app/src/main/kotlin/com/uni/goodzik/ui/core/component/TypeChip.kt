@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.uni.goodzik.ui.theme.UniFineTheme
+import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
 fun TypeChip(
@@ -17,13 +17,13 @@ fun TypeChip(
 ) {
     Text(
         text = text,
-        style = UniFineTheme.typography.hint,
+        style = GoodzikTheme.typography.hint,
         modifier = Modifier
             .background(
                 color = color,
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(UniFineTheme.padding.small),
-        color = UniFineTheme.colors.white
+            .padding(GoodzikTheme.padding.small),
+        color = GoodzikTheme.colors.snow
     )
 }
