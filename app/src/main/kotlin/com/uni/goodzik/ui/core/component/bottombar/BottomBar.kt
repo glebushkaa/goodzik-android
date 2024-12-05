@@ -79,7 +79,7 @@ private fun BottomBarItem(
         contentDescription = null,
         tint = if (selected) Color.White else Color.Black,
         modifier = modifier
-            .size(50.dp)
+            .size(44.dp)
             .background(
                 color = if (selected) Color.Black else Color.Transparent,
                 shape = CircleShape

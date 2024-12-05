@@ -20,4 +20,10 @@ sealed interface Screens {
 
     @Serializable
     data object Donate: Screens
+
+    @Serializable
+    data class Details(val id: String) : Screens
+
+    @Serializable
+    data class Steps(val id: String) : Screens
 }

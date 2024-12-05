@@ -102,11 +102,11 @@ private fun NewsCard(
         modifier = modifier
             .shadow(
                 elevation = 2.dp,
-                shape = RoundedCornerShape(6.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .background(
                 color = GoodzikTheme.colors.snow,
-                shape = RoundedCornerShape(6.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .clickableNoRipple(onClick = onClick)
             .padding(GoodzikTheme.padding.average)

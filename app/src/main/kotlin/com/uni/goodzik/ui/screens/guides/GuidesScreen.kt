@@ -39,19 +39,23 @@ import com.uni.goodzik.ui.theme.GoodzikTheme
 import java.time.LocalDate
 
 @Composable
-fun GuidesScreen() {
+fun GuidesScreen(
+    onDetails: (id: String) -> Unit
+) {
     Screen<GuidesViewModel> { viewModel ->
         val state by viewModel.state.collectAsStateWithLifecycle()
 
         GuidesScreenContent(
-            state = state
+            state = state,
+            onGuideClick = onDetails
         )
     }
 }
 
 @Composable
 private fun GuidesScreenContent(
-    state: GuidesState
+    state: GuidesState,
+    onGuideClick: (id: String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -86,7 +90,9 @@ private fun GuidesScreenContent(
                         .animateItem()
                         .applyIf(isLast) { navigationBarsPadding() },
                     guide = guide
-                ) { TODO() }
+                ) {
+                    onGuideClick(guide.id)
+                }
             }
         }
     }
@@ -102,11 +108,11 @@ private fun GuideCard(
         modifier = modifier
             .shadow(
                 elevation = 2.dp,
-                shape = RoundedCornerShape(6.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .background(
                 color = GoodzikTheme.colors.snow,
-                shape = RoundedCornerShape(6.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .clickableNoRipple(onClick = onClick)
             .padding(GoodzikTheme.padding.average)
@@ -165,7 +171,9 @@ private fun GuideCardPreview() {
         description = "Learn how to sew linen with ease using our step-by-step guide. From selecting the right fabric to mastering essential" +
                 "Learn how to sew linen with ease using our step-by-step guide. From selecting the right fabric to mastering essential",
         date = LocalDate.now(),
-        categories = listOf(Category("0", "Underwear"))
+        categories = listOf(Category("0", "Underwear")),
+        imageUrl = "",
+        author = "Author"
     )
     GuideCard(guide = guide) {}
 }

@@ -22,6 +22,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.uni.goodzik.ui.core.component.bottombar.BottomNavigationBar
 import com.uni.goodzik.ui.core.component.bottombar.toBottomNavItem
 import com.uni.goodzik.ui.core.component.bottombar.toRoute
@@ -29,10 +30,12 @@ import com.uni.goodzik.ui.core.extension.collectAsEffect
 import com.uni.goodzik.ui.core.extension.navigateWithFullClearedStack
 import com.uni.goodzik.ui.navigation.Screens
 import com.uni.goodzik.ui.screens.auth.AuthScreen
+import com.uni.goodzik.ui.screens.details.DetailsScreen
 import com.uni.goodzik.ui.screens.guides.GuidesScreen
 import com.uni.goodzik.ui.screens.news.NewsScreen
 import com.uni.goodzik.ui.screens.profile.ProfileScreen
 import com.uni.goodzik.ui.screens.splash.SplashScreen
+import com.uni.goodzik.ui.screens.steps.StepsScreen
 import com.uni.goodzik.ui.theme.GoodzikTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.map
@@ -126,13 +129,23 @@ class MainActivity : ComponentActivity() {
                 )
             }
             composable<Screens.Guides> {
-                GuidesScreen()
+                GuidesScreen { id ->
+                    navController.navigate(Screens.Details(id))
+                }
             }
             composable<Screens.News> {
                 NewsScreen()
             }
             composable<Screens.Profile> {
                 ProfileScreen()
+            }
+            composable<Screens.Details> {
+                val id = it.toRoute<Screens.Details>().id
+                DetailsScreen(id)
+            }
+            composable<Screens.Steps> {
+                val id = it.toRoute<Screens.Steps>().id
+                StepsScreen(id)
             }
         }
     }
