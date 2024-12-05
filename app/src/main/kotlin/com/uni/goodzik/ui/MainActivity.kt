@@ -33,6 +33,7 @@ import com.uni.goodzik.ui.screens.auth.AuthScreen
 import com.uni.goodzik.ui.screens.details.DetailsScreen
 import com.uni.goodzik.ui.screens.guides.GuidesScreen
 import com.uni.goodzik.ui.screens.news.NewsScreen
+import com.uni.goodzik.ui.screens.news_details.NewsDetailsScreen
 import com.uni.goodzik.ui.screens.profile.ProfileScreen
 import com.uni.goodzik.ui.screens.splash.SplashScreen
 import com.uni.goodzik.ui.screens.steps.StepsScreen
@@ -134,18 +135,29 @@ class MainActivity : ComponentActivity() {
                 }
             }
             composable<Screens.News> {
-                NewsScreen()
+                NewsScreen {
+                    navController.navigate(Screens.NewsDetails(it))
+                }
             }
             composable<Screens.Profile> {
                 ProfileScreen()
             }
             composable<Screens.Details> {
                 val id = it.toRoute<Screens.Details>().id
-                DetailsScreen(id)
+                DetailsScreen(id = id) {
+                    navController.navigate(Screens.Steps(id)) {
+                        popUpTo(Screens.Guides) { inclusive = false }
+                    }
+                }
             }
             composable<Screens.Steps> {
                 val id = it.toRoute<Screens.Steps>().id
                 StepsScreen(id)
+            }
+
+            composable<Screens.NewsDetails> {
+                val id = it.toRoute<Screens.NewsDetails>().id
+                NewsDetailsScreen(id)
             }
         }
     }

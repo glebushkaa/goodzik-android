@@ -39,19 +39,23 @@ import com.uni.goodzik.ui.core.extension.convertLocalDateTimeToUkrainianFormat
 import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
-fun NewsScreen() {
+fun NewsScreen(
+    onNewsClick: (id: String) -> Unit
+) {
     Screen<NewsViewModel> { viewModel ->
         val state by viewModel.state.collectAsStateWithLifecycle()
 
         NewsScreenContent(
-            state = state
+            state = state,
+            onNewsClick = onNewsClick
         )
     }
 }
 
 @Composable
 private fun NewsScreenContent(
-    state: NewsState
+    state: NewsState,
+    onNewsClick: (id: String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -86,7 +90,9 @@ private fun NewsScreenContent(
                         .animateItem()
                         .applyIf(isLast) { navigationBarsPadding() },
                     news = news
-                ) { TODO() }
+                ) {
+                    onNewsClick(news.id)
+                }
             }
         }
     }

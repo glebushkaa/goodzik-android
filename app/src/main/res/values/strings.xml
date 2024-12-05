@@ -18,6 +18,8 @@
     <string name="news">News</string>
     <string name="guides">Guides</string>
     <string name="details">Details</string>
+    <string name="news_details">News details</string>
+    <string name="steps">Steps</string>
     <string name="chat_history">Chats history</string>
     <string name="log_out">Logout</string>
     <string name="about_us">About us</string>

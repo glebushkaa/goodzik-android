@@ -16,6 +16,7 @@ data class GoodzikColor(
     val red: Color = Color(0xFFFF7676),
     val green: Color = Color(0xFF1FC16B),
     val purple: Color = Color(0xFFBC7AF2),
+    val disabled: Color = Color(0xFFB9B9B9)
 )
 
 val LocalColors = staticCompositionLocalOf { GoodzikColor() }

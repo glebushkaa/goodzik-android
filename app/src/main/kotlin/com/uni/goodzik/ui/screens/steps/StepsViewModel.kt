@@ -1,6 +1,6 @@
 package com.uni.goodzik.ui.screens.steps
 
-import com.uni.goodzik.ui.screens.details.DetailsState
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import com.uni.goodzik.model.Step
 import com.uni.goodzik.ui.core.StateViewModel
 import dagger.assisted.Assisted
@@ -20,19 +20,22 @@ class StepsViewModel @AssistedInject constructor(
     }
 
     private fun loadSteps() {
-        val persistentList = persistentListOf<Step>()
+        val persistentList = persistentListOf<Step>().builder()
         repeat(10) {
             val step = Step(
                 id = it.toString(),
                 order = it,
-                title = "Title $it",
-                description = "Description $it",
+                guideTitle = "Guide title",
+                name = "Title $it",
+                description = LoremIpsum(100)
+                    .values
+                    .joinToString(),
                 image = "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/02/attackontitan_anime_colossustitan_eren.jpg?q=50&fit=crop&w=943&h=&dpr=1.5"
             )
             persistentList.add(step)
         }
         mutableState.update {
-            it.copy(steps = persistentList)
+            it.copy(steps = persistentList.build())
         }
     }
 
