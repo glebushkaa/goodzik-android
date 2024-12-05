@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.uni.fine"
+    namespace = "com.uni.setup"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.uni.fine"
+        applicationId = "com.uni.setup"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

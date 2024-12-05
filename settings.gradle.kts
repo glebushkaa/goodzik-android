@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "UniFine"
+rootProject.name = "Goodzik"
 include(":app")
