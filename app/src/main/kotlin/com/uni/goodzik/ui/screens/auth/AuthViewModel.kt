@@ -39,6 +39,10 @@ class AuthViewModel @Inject constructor(
                 it.copy(email = action.email.trim())
             }
 
+            is AuthAction.UpdateUsername -> mutableState.update {
+                it.copy(username = action.username.trim())
+            }
+
             is AuthAction.UpdatePassword -> mutableState.update {
                 it.copy(password = action.password.trim())
             }
@@ -80,7 +84,8 @@ class AuthViewModel @Inject constructor(
             _loading.tryEmit(true)
             authRepository.register(
                 email = state.value.email,
-                password = state.value.password
+                password = state.value.password,
+                name = state.value.username
             )
             _loading.tryEmit(false)
             _sideEffect.tryEmit(AuthSideEffect.Home)
@@ -88,15 +93,16 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun collectReadyState() {
-        launch {
+        launch(loadingEnabled = false) {
             state.collectLatest { state ->
                 val isEmailValid = state.email.matches(emailRegex)
                 val isPasswordValid = state.password.matches(passwordRegex)
-                val isConfirmPasswordValid =
-                    (state.type == AuthState.AuthType.Login || state.confirmPassword == state.password)
+                val isRegisterValid = state.confirmPassword == state.password &&
+                        state.type == AuthState.AuthType.Register &&
+                        state.username.isNotEmpty()
                 val condition = isEmailValid &&
                         isPasswordValid &&
-                        isConfirmPasswordValid
+                        (state.type == AuthState.AuthType.Login || isRegisterValid)
                 mutableState.update {
                     it.copy(buttonEnabled = condition)
                 }

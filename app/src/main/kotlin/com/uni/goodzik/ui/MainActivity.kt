@@ -27,6 +27,7 @@ import com.uni.goodzik.ui.core.component.bottombar.BottomNavigationBar
 import com.uni.goodzik.ui.core.component.bottombar.toBottomNavItem
 import com.uni.goodzik.ui.core.component.bottombar.toRoute
 import com.uni.goodzik.ui.core.extension.collectAsEffect
+import com.uni.goodzik.ui.core.extension.navigateSingleTop
 import com.uni.goodzik.ui.core.extension.navigateWithFullClearedStack
 import com.uni.goodzik.ui.navigation.Screens
 import com.uni.goodzik.ui.screens.auth.AuthScreen
@@ -74,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
             GoodzikTheme {
                 Box(modifier = Modifier.fillMaxSize()) {
-                    UniNavHost(navController = navController)
+                    GoodzikNavHost(navController = navController)
                     BottomNavigationBar(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
@@ -93,7 +94,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun UniNavHost(
+    private fun GoodzikNavHost(
         modifier: Modifier = Modifier,
         navController: NavHostController
     ) {
@@ -109,25 +110,17 @@ class MainActivity : ComponentActivity() {
             composable<Screens.Splash> {
                 SplashScreen(
                     onAuth = {
-                        navController.navigate(Screens.Auth) {
-                            popUpTo(Screens.Splash) { inclusive = true }
-                        }
+                        navController.navigateSingleTop(Screens.Auth)
                     },
                     onHome = {
-                        navController.navigate(Screens.Guides) {
-                            popUpTo(Screens.Splash) { inclusive = true }
-                        }
+                        navController.navigateSingleTop(Screens.News)
                     }
                 )
             }
             composable<Screens.Auth> {
                 AuthScreen(
                     onBack = { if (!navController.popBackStack()) finish() },
-                    onHome = {
-                        navController.navigate(Screens.Guides) {
-                            popUpTo(Screens.Splash) { inclusive = true }
-                        }
-                    }
+                    onHome = { navController.navigateSingleTop(Screens.News) }
                 )
             }
             composable<Screens.Guides> {

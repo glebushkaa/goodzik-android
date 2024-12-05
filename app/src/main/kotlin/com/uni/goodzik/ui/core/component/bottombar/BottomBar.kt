@@ -50,7 +50,7 @@ fun BottomNavigationBar(
     val spacedBy = GoodzikTheme.padding.average
 
     val xOffset by remember(selectedIndex) {
-        derivedStateOf { selectedIndex * (44.dp + spacedBy) }
+        derivedStateOf { selectedIndex * (50.dp + spacedBy) }
     }
     val animatedXOffset by animateDpAsState(
         animationSpec = spring(
@@ -84,7 +84,7 @@ fun BottomNavigationBar(
         ) {
             Box(
                 modifier = Modifier
-                    .size(44.dp)
+                    .size(50.dp)
                     .offset {
                         IntOffset(x = animatedXOffset.roundToPx(), y = 0)
                     }
@@ -130,7 +130,7 @@ private fun BottomBarItem(
         contentDescription = null,
         tint = animatedColor,
         modifier = modifier
-            .size(44.dp)
+            .size(50.dp)
             .clickableNoRipple(onClick)
             .padding(GoodzikTheme.padding.average)
     )

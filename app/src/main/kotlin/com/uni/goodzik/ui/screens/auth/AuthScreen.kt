@@ -1,13 +1,14 @@
 package com.uni.goodzik.ui.screens.auth
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -59,6 +60,7 @@ fun AuthScreen(
             onEmailUpdate = { viewModel.sendAction(AuthAction.UpdateEmail(it)) },
             onConfirmPasswordUpdate = { viewModel.sendAction(AuthAction.UpdateConfirmPassword(it)) },
             onLogin = { viewModel.sendAction(AuthAction.Login) },
+            onUsernameUpdate = { viewModel.sendAction(AuthAction.UpdateUsername(it)) },
         )
     }
 }
@@ -69,6 +71,7 @@ private fun AuthScreenContent(
     onCreateAccount: () -> Unit,
     onCreateAccountMode: () -> Unit,
     onLogin: () -> Unit,
+    onUsernameUpdate: (String) -> Unit,
     onPasswordUpdate: (String) -> Unit,
     onEmailUpdate: (String) -> Unit,
     onConfirmPasswordUpdate: (String) -> Unit,
@@ -82,7 +85,6 @@ private fun AuthScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .imePadding()
             .navigationBarsPadding()
             .padding(horizontal = GoodzikTheme.padding.gigantic)
     ) {
@@ -96,6 +98,25 @@ private fun AuthScreenContent(
             textStyle = GoodzikTheme.typography.extraHeading
         )
         Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.huge))
+        AnimatedVisibility(
+            visible = !isLogin,
+            enter = slideInHorizontally { it * 2 } + expandVertically(),
+            exit = slideOutHorizontally { it * 2 } + shrinkVertically(),
+        ) {
+            Column {
+                Text(
+                    text = stringResource(R.string.username),
+                    style = GoodzikTheme.typography.body,
+                )
+                Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.small))
+                UniTextField(
+                    text = state.username,
+                    hint = stringResource(R.string.username_hint),
+                    onTextChange = onUsernameUpdate,
+                )
+                Spacer(modifier = Modifier.padding(top = GoodzikTheme.padding.huge))
+            }
+        }
         Text(
             text = stringResource(R.string.email),
             style = GoodzikTheme.typography.body,

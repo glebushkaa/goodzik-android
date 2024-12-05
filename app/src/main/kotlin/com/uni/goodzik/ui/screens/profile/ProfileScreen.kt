@@ -38,12 +38,18 @@ fun ProfileScreen() {
     Screen<ProfileViewModel> { viewModel ->
         val state by viewModel.state.collectAsStateWithLifecycle()
 
-        ProfileScreenContent(state = state)
+        ProfileScreenContent(
+            state = state,
+            onLogOut = { viewModel.sendAction(ProfileAction.LogOut) }
+        )
     }
 }
 
 @Composable
-private fun ProfileScreenContent(state: ProfileState) {
+private fun ProfileScreenContent(
+    state: ProfileState,
+    onLogOut: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,8 +107,9 @@ private fun ProfileScreenContent(state: ProfileState) {
             SettingButton(
                 text = stringResource(R.string.log_out),
                 icon = painterResource(R.drawable.logout),
-                color = GoodzikTheme.colors.red
-            ) { }
+                color = GoodzikTheme.colors.red,
+                onClick = onLogOut
+            )
         }
     }
 }
@@ -137,5 +144,8 @@ private fun SettingButton(
 @Composable
 @Preview
 private fun ProfileScreenContentPreview() {
-    ProfileScreenContent(ProfileState("Goodzik", "mail@mail.com"))
+    ProfileScreenContent(
+        state = ProfileState("Goodzik", "mail@mail.com"),
+        onLogOut = { }
+    )
 }

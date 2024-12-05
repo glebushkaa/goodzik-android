@@ -11,6 +11,8 @@
     <string name="password_hint">Enter your password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="confirm_password_hint">Enter your confirm password</string>
+    <string name="username">Username</string>
+    <string name="username_hint">Enter your username</string>
 
     <string name="next">Next</string>
 

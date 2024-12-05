@@ -25,7 +25,7 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private val GLOBAL_TIMEOUT = Duration.ofSeconds(30)
-    private const val BASE_URL = "http://www.goodzik.eventbook.pp.ua/"
+    private const val BASE_URL = "https://goodzik-api.eventbook.pp.ua/"
 
     @Provides
     @Singleton
