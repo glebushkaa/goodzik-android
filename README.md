@@ -1,108 +1,93 @@
-# 🎓UniFine
-
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-purple.svg)](https://kotlinlang.org/)
+# 🧵 Sewing Division Android
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0-purple.svg)](https://kotlinlang.org/)
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A powerful, AI-driven Android app designed to help students improve their writing. UniFine provides an intuitive interface for detecting and correcting various types of errors in text, from grammar and spelling to style and coherence.
+The Android mobile application for Sewing Division ("Швейна рота") - a volunteer platform connecting creators of adaptive clothing for wounded military personnel. Our app provides seamless access to tutorials, patterns, and community features for volunteers worldwide.
 
-## Features
+## 📱 Features
+* **Video Learning**: Stream HD masterclass tutorials for adaptive clothing creation
+* **Pattern Access**: Download and view detailed sewing patterns
+* **Multilingual**: Full support for Ukrainian and English
+* **Offline Mode**: Download patterns and tutorials for offline access
+* **Community Integration**: Connect with other volunteers
+* **Project Tracking**: Monitor your contribution and impact
+* **Resource Library**: Organized categories for cyber-wear, armor-wear, and accessories
 
-* **Smart Text Analysis**: Real-time AI-powered detection of grammar, spelling, and style errors
-* **Context-Aware Suggestions**: Intelligent recommendations based on the text's context and purpose
-* **Multiple Text Types**: Support for essays, research papers, reports, and other academic writing
-* **Learning Support**: Explanations and examples to help understand corrections
-* **Progress Tracking**: Monitor improvement over time with detailed analytics
-
-## Technology Stack
-
+## 🛠️ Technology Stack
 * **Language**: Kotlin
-* **Architecture**: MVI
-* **Frameworks**: Jetpack Compose, Room
-* **AI Integration**: OpenAI API for text analysis
-* **Networking**: Retrofit
-* **Additional Libraries**: Kotlin Coroutines
+* **Architecture**: MVI with Clean Architecture
+* **UI Framework**: Jetpack Compose
+* **Database**: Room
+* **Dependency Injection**: Hilt
+* **Networking**: Retrofit with Coroutines
+* **Image Loading**: Coil
 
-## Getting Started
-
+## 🚀 Getting Started
 ### Prerequisites
-
 * Android 8.0+ (API level 26+)
-* Android Studio Flamingo (or later)
+* Android Studio Hedgehog or later
+* JDK 17
 
 ### Installation
-
 1. Clone the repository:
    ```bash
-   git clone https://github.com/glebushkaa/uni-fine-android.git
-   cd uni-fine-android
+   git clone https://github.com/your-username/sewing-division-android.git
+   cd sewing-division-android
    ```
 
-2. Open the project in Android Studio
+2. Open in Android Studio
 
-3. Run the app by selecting your target device or emulator and clicking `Run` (Shift + F10)
+3. Build the project:
+   ```bash
+   ./gradlew build
+   ```
 
-## Usage Guide
+4. Run on your device or emulator
 
-### Initial Setup
+## 📂 Project Structure
+```plaintext
+app/
+├── data/              # Data layer
+│   ├── api/          # Remote data sources
+│   ├── db/           # Local database
+│   └── repository/   # Repository implementations
+├── domain/           # Business logic
+│   ├── model/       # Domain models
+│   ├── repository/  # Repository interfaces
+│   └── usecase/     # Use cases
+├── presentation/     # UI layer
+│   ├── tutorials/   # Tutorial screens
+│   ├── patterns/    # Pattern screens
+│   ├── profile/     # Profile screens
+│   └── common/      # Shared UI components
+└── di/              # Dependency injection
+```
 
-1. Launch UniFine on your Android device
-2. Create an account:
-   * Tap "Sign Up" on the welcome screen
-   * Enter your email and create a password
-   * Follow the setup prompts
-   * Or sign in if you already have an account
+## 🌍 Impact Statistics
+* 100,000+ adaptive clothing items created
+* 700+ active volunteers
+* 1,800+ individual requests fulfilled
+* 100+ medical facilities supported
 
-### Using the App
-
-1. Create a Document
-   * Provide a document title
-   * Choose a writing style (Formal, Informal, Friendly)
-   * Click Next to proceed
-
-2. Input Text
-   * Paste or type text directly into the editor
-   * Upload a PDF file to extract content
-   * Click Next for analysis
-
-3. Review Analysis
-   * AI scans for grammar, spelling, style, and coherence errors
-   * Review highlighted areas for suggested improvements
-   * Tap highlighted sections to see:
-     * Detailed suggestions
-     * Explanations and recommendations
-
-4. Plagiarism Detection
-   * Click "Check Plagiarism"
-   * Wait for the comprehensive Internet search
-   * Review matching source links
-
-5. Progress Tracking (Coming Soon)
-   * Visit the "Analytics" tab to monitor:
-     * Total errors detected and corrected
-     * Plagiarism detection accuracy
-     * Grammar, style, and spelling improvements
-
-## Key Capabilities
-
-* Grammar & Spelling: Advanced error detection and correction
-* Style Analysis: Suggestions for clarity and conciseness
-* Academic Writing Support: Specialized checks for academic conventions
-
-## Contributing
-
-Contributions are welcome! Here's how you can help:
-
+## 🤝 Contributing
+We welcome contributions! Please follow these steps:
 1. Fork the repository
-2. Create a new branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Submit a pull request
 
-## License
+## 📱 Connect With Us
+* [Instagram](https://www.instagram.com/shveina_rota)
+* [Facebook](https://www.facebook.com/profile.php?id=100083407995435)
+* [Telegram](https://t.me/shveina_rota)
+* [Twitter](https://twitter.com/ShveinaRota)
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 💝 Support Our Mission
+* MonoBank: 5375 4112 0381 7304
+* [PayPal](mailto:marishka.polo@gmail.com)
+* [Support Link](https://send.monobank.ua/jar/5VV7zhDJGY)
 
-## Contact
-
-Created by [@Glebushkaa](https://github.com/glebushkaa) - feel free to reach out!
+## 📄 License
+This project is licensed under the MIT License.
