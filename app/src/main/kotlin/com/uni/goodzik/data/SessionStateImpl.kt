@@ -1,6 +1,6 @@
 package com.uni.goodzik.data
 
-import com.uni.goodzik.database.SetupDatabase
+import com.uni.goodzik.database.GuideDatabase
 import com.uni.goodzik.domain.SessionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SessionStateImpl @Inject constructor(
-    private val database: SetupDatabase
+    private val database: GuideDatabase
 ) : SessionState {
 
     private val _logOutAction = MutableSharedFlow<Unit>(extraBufferCapacity = 1)

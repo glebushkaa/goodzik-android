@@ -9,5 +9,5 @@ data class Guide(
     val description: String,
     val date: LocalDate,
     val categories: List<Category>,
-    val imageUrl: String,
+    val videoUrl: String?
 )

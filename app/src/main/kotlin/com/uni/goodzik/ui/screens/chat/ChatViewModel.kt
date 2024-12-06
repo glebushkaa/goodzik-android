@@ -36,7 +36,7 @@ class ChatViewModel @AssistedInject constructor(
                 id = it.toString(),
                 text = "Message $it",
                 incoming = it % 2 == 0,
-                time = LocalDateTime.now()
+                author = "Author $it",
             )
             persistentList.add(chatMessage)
         }

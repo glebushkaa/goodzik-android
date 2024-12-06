@@ -134,7 +134,7 @@ private fun NewsCard(
                     .weight(1f)
             ) {
                 Text(
-                    text = news.title,
+                    text = news.author,
                     maxLines = 1,
                     style = GoodzikTheme.typography.body,
                     color = GoodzikTheme.colors.black,

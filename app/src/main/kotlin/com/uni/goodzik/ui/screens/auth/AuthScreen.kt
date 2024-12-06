@@ -26,7 +26,7 @@ import com.uni.goodzik.R
 import com.uni.goodzik.ui.core.component.OnBackEventListener
 import com.uni.goodzik.ui.core.component.Screen
 import com.uni.goodzik.ui.core.component.TopBar
-import com.uni.goodzik.ui.core.component.UniButton
+import com.uni.goodzik.ui.core.component.GoodzikButton
 import com.uni.goodzik.ui.core.component.UniTextField
 import com.uni.goodzik.ui.core.extension.clickableNoRipple
 import com.uni.goodzik.ui.core.extension.collectAsEffect
@@ -171,7 +171,7 @@ private fun AuthScreenContent(
             }
         }
         Spacer(modifier = Modifier.weight(1f))
-        UniButton(
+        GoodzikButton(
             modifier = Modifier.padding(
                 horizontal = GoodzikTheme.padding.medium,
             ),

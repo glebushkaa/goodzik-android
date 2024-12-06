@@ -1,6 +1,6 @@
 package com.uni.goodzik.ui.screens.news_details
 
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
+import com.uni.goodzik.domain.repository.NewsRepository
 import com.uni.goodzik.ui.core.StateViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel(assistedFactory = NewsDetailsViewModel.Factory::class)
 class NewsDetailsViewModel @AssistedInject constructor(
-    @Assisted private val id: String
+    @Assisted private val id: String,
+    private val newsRepository: NewsRepository,
 ) : StateViewModel<NewsDetailsState>(NewsDetailsState()) {
 
     init {
@@ -19,18 +20,16 @@ class NewsDetailsViewModel @AssistedInject constructor(
     }
 
     private fun loadDetails() {
-        val list = buildList {
-            repeat(5) {
-                add("https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/02/attackontitan_anime_colossustitan_eren.jpg?q=50&fit=crop&w=943&h=&dpr=1.5")
+        launch {
+            val news = newsRepository.getNewsWithImage(id) ?: return@launch
+            mutableState.update {
+                it.copy(
+                    title = news.title,
+                    description = news.description,
+                    images = news.images.toImmutableList(),
+                    author = news.author,
+                )
             }
-        }
-        mutableState.update {
-            it.copy(
-                title = "Title $id",
-                author = "Author with $id",
-                description = LoremIpsum(100).values.joinToString(),
-                images = list.toImmutableList()
-            )
         }
     }
 

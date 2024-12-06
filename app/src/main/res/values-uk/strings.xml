@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ґудзик</string>
+    <string name="app_name">Швейна рота</string>
 
     <string name="login">Увійти</string>
     <string name="create_account">Створити акаунт</string>
@@ -20,6 +20,7 @@
     <string name="profile">Профіль</string>
     <string name="news">Новини</string>
     <string name="guides">Посібники</string>
+    <string name="donate">Донат</string>
     <string name="details">Деталі</string>
     <string name="chat">Чат</string>
     <string name="news_details">Деталі новин</string>
@@ -29,4 +30,16 @@
     <string name="about_us">Про нас</string>
     <string name="write_message">Напишіть повідомлення…</string>
 
+    <string name="bank_link">Задонатити через Monobank</string>
+    <string name="paypal_link">Задонатити через PayPal</string>
+    <string name="card_number">Номер картки</string>
+
+    <string name="card_copied">Номер картки скопійовано</string>
+
+    <string name="done_works">Приклади готового одягу</string>
+    <string name="schemes">Схеми</string>
+    <string name="no_comments">Немає коментарів</string>
+    <string name="scheme">Схема %s</string>
+    <string name="author">Автор</string>
+    <string name="comments">Коментарі</string>
 </resources>

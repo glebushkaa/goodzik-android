@@ -2,7 +2,7 @@ package com.uni.goodzik.di
 
 import android.content.Context
 import androidx.room.Room
-import com.uni.goodzik.database.SetupDatabase
+import com.uni.goodzik.database.GuideDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,13 +18,21 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ): SetupDatabase = Room.databaseBuilder(
+    ): GuideDatabase = Room.databaseBuilder(
         context = context,
-        klass = SetupDatabase::class.java,
-        name = "uni_database"
+        klass = GuideDatabase::class.java,
+        name = "goodzik_database"
     ).fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton
-    fun provideUserDao(database: SetupDatabase) = database.userDao()
+    fun provideUserDao(database: GuideDatabase) = database.userDao()
+
+    @Provides
+    @Singleton
+    fun provideGuideDao(database: GuideDatabase) = database.guideDao()
+
+    @Provides
+    @Singleton
+    fun provideNewsDao(database: GuideDatabase) = database.newsDao()
 }

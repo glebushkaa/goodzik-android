@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +32,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uni.goodzik.R
 import com.uni.goodzik.ui.core.component.Screen
 import com.uni.goodzik.ui.core.extension.clickableNoRipple
+import com.uni.goodzik.ui.core.extension.openDesktopSite
+import com.uni.goodzik.ui.core.extension.openLink
 import com.uni.goodzik.ui.theme.GoodzikTheme
 
 @Composable
@@ -50,6 +53,8 @@ private fun ProfileScreenContent(
     state: ProfileState,
     onLogOut: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -91,18 +96,14 @@ private fun ProfileScreenContent(
                 style = GoodzikTheme.typography.fieldTitle,
                 color = GoodzikTheme.colors.black
             )
-            Spacer(modifier = Modifier.height(GoodzikTheme.padding.huge))
-            SettingButton(
-                text = stringResource(R.string.chat_history),
-                icon = painterResource(R.drawable.chat),
-                color = GoodzikTheme.colors.black
-            ) { }
             Spacer(modifier = Modifier.height(GoodzikTheme.padding.large))
             SettingButton(
                 text = stringResource(R.string.about_us),
                 icon = painterResource(R.drawable.info),
                 color = GoodzikTheme.colors.black
-            ) { }
+            ) {
+                context.openDesktopSite("https://goodzik-landing-9akk.vercel.app/")
+            }
             Spacer(modifier = Modifier.height(GoodzikTheme.padding.large))
             SettingButton(
                 text = stringResource(R.string.log_out),

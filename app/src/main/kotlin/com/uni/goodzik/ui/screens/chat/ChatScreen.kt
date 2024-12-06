@@ -102,8 +102,8 @@ private fun ChatScreenContent(
                             align(Alignment.Start).padding(end = GoodzikTheme.padding.enormous)
                         },
                     message = message.text,
-                    time = message.time.convertLocalDateTimeToUkrainianFormat(),
-                    incoming = message.incoming
+                    incoming = message.incoming,
+                    author = ""
                 )
             }
         }
@@ -119,10 +119,10 @@ private fun ChatScreenContent(
 }
 
 @Composable
-private fun Message(
+fun Message(
     modifier: Modifier = Modifier,
     message: String,
-    time: String,
+    author: String,
     incoming: Boolean
 ) {
     val textColor = if (incoming) GoodzikTheme.colors.pureBlack else GoodzikTheme.colors.snow
@@ -149,7 +149,7 @@ private fun Message(
             Spacer(modifier = Modifier.height(GoodzikTheme.padding.small))
             Text(
                 modifier = Modifier.align(Alignment.End),
-                text = time,
+                text = author,
                 style = GoodzikTheme.typography.hint,
                 color = textColor.copy(alpha = 0.6f)
             )
@@ -158,7 +158,7 @@ private fun Message(
 }
 
 @Composable
-private fun MessageTextField(
+fun MessageTextField(
     modifier: Modifier = Modifier,
     text: String,
     onTextChange: (String) -> Unit,
@@ -196,7 +196,7 @@ private fun MessageTextField(
 }
 
 @Composable
-private fun TextField(
+fun TextField(
     modifier: Modifier = Modifier,
     text: String,
     hint: String = "",

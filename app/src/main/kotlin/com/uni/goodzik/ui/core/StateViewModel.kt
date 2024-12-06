@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uni.goodzik.ui.core.component.ToastMessageData
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,9 @@ abstract class BaseViewModel : ViewModel() {
         loadingEnabled: Boolean = true,
         onError: (e: Exception) -> Unit = {},
         block: suspend () -> Unit,
-    ): Job = viewModelScope.launch(context = context) {
+    ): Job = viewModelScope.launch(context = CoroutineExceptionHandler { _, _ ->
+        _loading.update { false }
+    } + context) {
         try {
             if (loadingEnabled) _loading.update { true }
             block()
