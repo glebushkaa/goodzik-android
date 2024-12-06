@@ -161,19 +161,3 @@ private fun GuideCard(
         }
     }
 }
-
-@Preview
-@Composable
-private fun GuideCardPreview() {
-    val guide = Guide(
-        id = "0",
-        title = "Title",
-        description = "Learn how to sew linen with ease using our step-by-step guide. From selecting the right fabric to mastering essential" +
-                "Learn how to sew linen with ease using our step-by-step guide. From selecting the right fabric to mastering essential",
-        date = LocalDate.now(),
-        categories = listOf(Category("0", "Underwear")),
-        imageUrl = "",
-        author = "Author"
-    )
-    GuideCard(guide = guide) {}
-}

@@ -100,14 +100,7 @@ private fun NewsDetailsScreenContent(
         ) {
             Spacer(modifier = Modifier.height(GoodzikTheme.padding.huge))
             Text(
-                modifier = Modifier,
                 text = state.author,
-                color = GoodzikTheme.colors.description,
-                style = GoodzikTheme.typography.hint
-            )
-            Spacer(modifier = Modifier.height(GoodzikTheme.padding.small))
-            Text(
-                text = state.title,
                 color = GoodzikTheme.colors.black,
                 style = GoodzikTheme.typography.fieldText
             )

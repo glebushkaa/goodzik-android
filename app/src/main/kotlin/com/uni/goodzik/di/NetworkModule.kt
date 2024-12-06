@@ -3,6 +3,8 @@ package com.uni.goodzik.di
 import com.uni.goodzik.database.dao.UserDao
 import com.uni.goodzik.domain.SessionState
 import com.uni.goodzik.network.api.AuthApi
+import com.uni.goodzik.network.api.GuideApi
+import com.uni.goodzik.network.api.NewsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,6 +73,14 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideGuideApi(retrofit: Retrofit): GuideApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideNewsApi(retrofit: Retrofit): NewsApi = retrofit.create()
 
     private fun buildAuthInterceptor(userDao: UserDao): Interceptor = Interceptor { chain ->
         val token = runBlocking { userDao.getToken() }

@@ -33,6 +33,7 @@ import com.uni.goodzik.ui.navigation.Screens
 import com.uni.goodzik.ui.screens.auth.AuthScreen
 import com.uni.goodzik.ui.screens.chat.ChatScreen
 import com.uni.goodzik.ui.screens.details.DetailsScreen
+import com.uni.goodzik.ui.screens.donate.DonateScreen
 import com.uni.goodzik.ui.screens.guides.GuidesScreen
 import com.uni.goodzik.ui.screens.news.NewsScreen
 import com.uni.goodzik.ui.screens.news_details.NewsDetailsScreen
@@ -144,11 +145,6 @@ class MainActivity : ComponentActivity() {
                         navController.navigate(Screens.Steps(id)) {
                             popUpTo(Screens.Guides) { inclusive = false }
                         }
-                    },
-                    onChat = {
-                        navController.navigate(Screens.Chat(id)) {
-                            popUpTo(Screens.Guides) { inclusive = false }
-                        }
                     }
                 )
             }
@@ -165,6 +161,9 @@ class MainActivity : ComponentActivity() {
             composable<Screens.Chat> {
                 val id = it.toRoute<Screens.Chat>().id
                 ChatScreen(id)
+            }
+            composable<Screens.Donate> {
+                DonateScreen()
             }
         }
     }

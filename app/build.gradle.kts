@@ -65,4 +65,6 @@ dependencies {
 
     implementation(libs.coil)
     implementation(libs.accompanist.permissions)
+
+    implementation("io.github.ilyapavlovskii:youtubeplayer-compose:2024.02.25")
 }
